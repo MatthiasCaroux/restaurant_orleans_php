@@ -1,0 +1,108 @@
+[
+    {
+        "uuid": "abc12345-1234-5678-1234-56781234abcd",
+        "type": "radio",
+        "label": "Quelle est la capitale de la France ?",
+        "choices": [
+            "Madrid",
+            "Paris",
+            "Berlin"
+        ],
+        "correct": "Paris"
+    },
+    {
+        "uuid": "def67890-5678-1234-5678-12345678defg",
+        "type": "radio",
+        "label": "Quelle planète est la plus proche du Soleil ?",
+        "choices": [
+            "Vénus",
+            "Mercure",
+            "Mars"
+        ],
+        "correct": "Mercure"
+    },
+    {
+        "uuid": "ghi34567-8901-2345-6789-01234567ghij",
+        "type": "checkbox",
+        "label": "Quels pays font partie de l'Union européenne ?",
+        "choices": [
+            "Norvège",
+            "France",
+            "Allemagne",
+            "Suisse"
+        ],
+        "correct": [
+            "France",
+            "Allemagne"
+        ]
+    },
+    {
+        "uuid": "jkl89012-3456-7890-1234-56789012jklm",
+        "type": "checkbox",
+        "label": "Quelles langues sont des langues officielles de l'ONU ?",
+        "choices": [
+            "Anglais",
+            "Espagnol",
+            "Chinois",
+            "Allemand"
+        ],
+        "correct": [
+            "Anglais",
+            "Espagnol",
+            "Chinois"
+        ]
+    },
+    {
+        "uuid": "qwerty12345-6789-1234-5678-abcdef123456",
+        "type": "radio",
+        "label": "Quel est le plus grand océan du monde ?",
+        "choices": [
+            "Océan Atlantique",
+            "Océan Indien",
+            "Océan Pacifique"
+        ],
+        "correct": "Océan Pacifique"
+    },
+    {
+        "uuid": "asdfgh67890-1234-5678-1234-abcdef678901",
+        "type": "radio",
+        "label": "Quel est le pays le plus peuplé du monde ?",
+        "choices": [
+            "Inde",
+            "Chine",
+            "États-Unis"
+        ],
+        "correct": "Chine"
+    },
+    {
+        "uuid": "zxcvbn34567-8901-2345-6789-abcdef345678",
+        "type": "checkbox",
+        "label": "Quels éléments chimiques sont des gaz rares ?",
+        "choices": [
+            "Hélium",
+            "Oxygène",
+            "Néon",
+            "Argon"
+        ],
+        "correct": [
+            "Hélium",
+            "Néon",
+            "Argon"
+        ]
+    },
+    {
+        "uuid": "lkjhgf89012-3456-7890-1234-abcdef890123",
+        "type": "checkbox",
+        "label": "Quels animaux sont des mammifères ?",
+        "choices": [
+            "Dauphin",
+            "Requin",
+            "Éléphant",
+            "Crocodile"
+        ],
+        "correct": [
+            "Dauphin",
+            "Éléphant"
+        ]
+    }
+]

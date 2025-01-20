@@ -1,0 +1,191 @@
+/* Réinitialisation de certains styles par défaut */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Style global */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fc;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background-color: #5c6bc0; /* Bleu modéré */
+    color: #fff;
+    padding: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header .container {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.8em;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #ffcc00; /* Jaune vif pour l'effet de survol */
+    transform: scale(1.1);
+}
+
+/* Section principale */
+main {
+    flex-grow: 1;
+    width: 80%;
+    margin: 40px auto;
+    animation: fadeIn 1s ease-out;
+}
+
+.home {
+    text-align: center;
+}
+
+/* Animation pour fadeIn */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Intro */
+.intro h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #3f51b5;
+    animation: slideInFromLeft 1s ease-out;
+}
+
+.intro p {
+    font-size: 1.3em;
+    margin-bottom: 30px;
+    color: #666;
+    line-height: 1.8;
+}
+
+/* Animation pour le titre */
+@keyframes slideInFromLeft {
+    0% { transform: translateX(-100%); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 30px;
+    font-size: 1.2em;
+    background-color: #5c6bc0;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+    background-color: #3f51b5;
+    transform: translateY(-5px);
+}
+
+/* Features */
+.features {
+    margin-top: 40px;
+}
+
+.features h3 {
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    color: #3f51b5;
+}
+
+.features ul {
+    list-style: none;
+    padding: 0;
+}
+
+.features ul li {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 30px;
+}
+
+.features ul li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ffcc00;
+    font-size: 1.5em;
+}
+
+/* Call to action */
+.call-to-action {
+    margin-top: 50px;
+}
+
+.call-to-action h3 {
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    color: #3f51b5;
+}
+
+.call-to-action .button {
+    padding: 15px 40px;
+    font-size: 1.3em;
+    border-radius: 50px;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+    /* margin-top: 40px; */
+}
+
+footer p {
+    font-size: 1em;
+    color: #bbb;
+}
+
+/* Effet de transition douce pour la page */
+body {
+    transition: background-color 0.5s ease;
+}
+
+body:hover {
+    background-color: #e3f2fd; /* Couleur plus claire au survol */
+}
