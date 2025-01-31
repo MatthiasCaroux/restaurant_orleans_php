@@ -20,7 +20,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     background-color: white;
-    padding: 1rem 2rem;
+    padding: 1rem 10rem;/* hauteur, largeur;*/
     font-size: 1rem;
 }
 
@@ -63,11 +63,39 @@ nav > ul > li > a:hover {
 
 /* bouton se connecter  */
 
-button {
+nav button {
     background-color: #031D44;
     color: white;
     padding: 0.5rem 1.3rem;
     border: none;
     border-radius: 40rem;
     cursor: pointer;
+}
+
+/*   Main   */
+
+main {
+    display: flex;
+    background-color: red;
+    align-items: center;
+    justify-content: center;
+}
+
+main > input {
+    padding: 1rem 10rem;
+    border: none;
+    border-radius: 0.4rem;
+    margin: 1rem;
+    text-align: left;
+}
+
+#bouton-loupe {
+    border: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+}
+
+#loupe-image {
+    width: 2em;
+    margin-right: 0.5em;
 }

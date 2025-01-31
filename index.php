@@ -13,7 +13,6 @@ Autoloader::register();
 </head>
 <body>
     <?php include '_inc/templates/header.php'; ?>
-    <main>
-    </main>
+    <?php include '_inc/templates/home.php'; ?>
 </body>
 </html>
