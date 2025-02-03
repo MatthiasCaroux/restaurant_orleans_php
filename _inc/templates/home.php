@@ -1,43 +1,86 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// get_restaurants.php
+
+// Inclusion de votre fichier de configuration/connexion à la base de données
+require __DIR__ . "/../bd/db.php";
+
+// Récupération des restaurants depuis la table "Restaurant"
+try {
+    // On utilise ici la fonction getPDO() déjà présente dans votre code d'insertion
+    $pdo = getPDO();
+    // Requête SQL pour récupérer tous les restaurants
+    $sql = 'SELECT * FROM "Restaurant"';
+    $stmt = $pdo->query($sql);
+    $restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Erreur lors de la récupération des restaurants : " . $e->getMessage());
+}
+
+// Chemin vers vos fichiers statiques (CSS, images, etc.)
 $cssPath = "_inc/static/";
 ?>
 
-<main class="home">
-    <div class="search-container">
-      <input type="text" placeholder="Rechercher un restaurant, un hôtel..." />
-      <button>
-        <img src="<?php echo $cssPath; ?>loupe.png" alt="Logo">
-      </button>
-    </div>
-    <p class="search-info">
-      Trouvez des restaurants, hôtels et bien plus encore, près de chez vous ou n'importe où dans le monde.
-    </p>
-    <section>
-        <div class="restaurant-container">
-            <div class="restaurant">
-                <div class="restaurant-info">
-                    <h2>Restaurant 1</h2>
-                    <p>Adresse 1</p>
-                    <p>Horaires 1</p>
-                    <p>Note 1</p>
-                </div>
-            </div>
-            <div class="restaurant">
-                <div class="restaurant-info">
-                    <h2>Restaurant 2</h2>
-                    <p>Adresse 2</p>
-                    <p>Horaires 2</p>
-                    <p>Note 2</p>   
-                </div>
-            </div>
-            <div class="restaurant">
-                <div class="restaurant-info">
-                    <h2>Restaurant 3</h2>
-                    <p>Adresse 3</p>
-                    <p>Horaires 3</p>
-                    <p>Note 3</p>
-                </div>
-            </div>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Restaurants</title>
+    <!-- Vous pouvez ajouter ici vos liens CSS -->
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>style.css">
+</head>
+<body>
+    <main class="home">
+        <div class="search-container">
+            <input type="text" placeholder="Rechercher un restaurant, un hôtel..." />
+            <button>
+                <img src="<?php echo $cssPath; ?>loupe.png" alt="Logo">
+            </button>
         </div>
-    </section>
-  </main>
+        <p class="search-info">
+            Trouvez des restaurants, hôtels et bien plus encore, près de chez vous ou n'importe où dans le monde.
+        </p>
+        <section>
+            <div class="restaurant-container">
+                <?php if(!empty($restaurants)): ?>
+                    <?php foreach($restaurants as $restaurant): ?>
+                        <div class="restaurant">
+                            <div class="restaurant-info">
+                                <!-- Affichage du nom du restaurant -->
+                                <h2><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h2>
+                                
+                                <!-- Affichage d'une adresse composée (ici commune et département) -->
+                                <p>
+                                    <?php 
+                                        // Vous pouvez adapter ces informations selon vos besoins
+                                        echo htmlspecialchars($restaurant['commune']) . ' - ' . htmlspecialchars($restaurant['departement']);
+                                    ?>
+                                </p>
+                                
+                                <!-- Affichage d'un lien vers le site web si disponible -->
+                                <?php if(!empty($restaurant['site_restaurant'])): ?>
+                                    <p>
+                                        <a href="<?php echo htmlspecialchars($restaurant['site_restaurant']); ?>" target="_blank">
+                                            Visiter le site
+                                        </a>
+                                    </p>
+                                <?php endif; ?>
+                                
+                                <!-- Affichage du téléphone si disponible -->
+                                <?php if(!empty($restaurant['telephone_restaurant'])): ?>
+                                    <p><?php echo htmlspecialchars($restaurant['telephone_restaurant']); ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>Aucun restaurant trouvé.</p>
+                <?php endif; ?>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
