@@ -3,14 +3,12 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-// get_restaurants.php
 
-// Inclusion de votre fichier de configuration/connexion à la base de données
+// Fichier pour la connexion a la bd
 require __DIR__ . "/../bd/db.php";
 
 // Récupération des restaurants depuis la table "Restaurant"
 try {
-    // On utilise ici la fonction getPDO() déjà présente dans votre code d'insertion
     $pdo = getPDO();
     // Requête SQL pour récupérer tous les restaurants
     $sql = 'SELECT * FROM "Restaurant"';
@@ -49,10 +47,10 @@ $cssPath = "_inc/static/";
                     <?php foreach($restaurants as $restaurant): ?>
                         <div class="restaurant">
                             <div class="restaurant-info">
-                                <!-- Affichage du nom du restaurant -->
+                                <!--  nom du restaurant -->
                                 <h2><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h2>
                                 
-                                <!-- Affichage d'une adresse composée (ici commune et département) -->
+                                <!-- adresse  (commune et département) -->
                                 <p>
                                     <?php 
                                         // Vous pouvez adapter ces informations selon vos besoins
@@ -60,7 +58,7 @@ $cssPath = "_inc/static/";
                                     ?>
                                 </p>
                                 
-                                <!-- Affichage d'un lien vers le site web si disponible -->
+                                <!-- site web si disponible -->
                                 <?php if(!empty($restaurant['site_restaurant'])): ?>
                                     <p>
                                         <a href="<?php echo htmlspecialchars($restaurant['site_restaurant']); ?>" target="_blank">
@@ -69,7 +67,7 @@ $cssPath = "_inc/static/";
                                     </p>
                                 <?php endif; ?>
                                 
-                                <!-- Affichage du téléphone si disponible -->
+                                <!-- téléphone -->
                                 <?php if(!empty($restaurant['telephone_restaurant'])): ?>
                                     <p><?php echo htmlspecialchars($restaurant['telephone_restaurant']); ?></p>
                                 <?php endif; ?>
