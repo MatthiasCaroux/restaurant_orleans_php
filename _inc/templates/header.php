@@ -13,6 +13,6 @@ $cssPath = "_inc/static/";
             <li><a href="/favoris.php">Favoris</a></li>
             <li><a href="/profil.php">Profil</a></li>
         </ul>
-        <button>Se connecter</button>
+        <a href="login.php"><button>Se connecter</button></a>
     </nav>
 </header>

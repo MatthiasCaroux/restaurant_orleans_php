@@ -13,6 +13,11 @@ body {
     font-family: 'Sarabun', sans-serif;
 }
 
+nav > button > a {
+    text-decoration: none;
+    color: white;
+}
+
 /* La nav bar */
 
 nav {
