@@ -1,4 +1,4 @@
-/* Gestion de la page de connexion */
+/* Gestion de la page d'inscription */
 
 main {
     display: flex;
@@ -14,7 +14,7 @@ main {
   }
   
   main > h2 {
-    margin-top: 1rem;
+    margin-top: 2rem;
     margin-bottom: 2rem;
     text-align: center;
   }
