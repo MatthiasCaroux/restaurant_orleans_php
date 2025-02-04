@@ -47,30 +47,34 @@ $cssPath = "_inc/static/";
                     <?php foreach($restaurants as $restaurant): ?>
                         <div class="restaurant">
                             <div class="restaurant-info">
-                                <!--  nom du restaurant -->
-                                <h2><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h2>
-                                
-                                <!-- adresse  (commune et département) -->
-                                <p>
-                                    <?php 
-                                        // Vous pouvez adapter ces informations selon vos besoins
-                                        echo htmlspecialchars($restaurant['commune']) . ' - ' . htmlspecialchars($restaurant['departement']);
-                                    ?>
-                                </p>
-                                
-                                <!-- site web si disponible -->
-                                <?php if(!empty($restaurant['site_restaurant'])): ?>
+                                    <!-- photo du resto -->
+                                    <img src="<?php echo $cssPath; ?>bk.jpeg" alt="Logo de bk en mode">
+                                <div>
+                                    <!--  nom du restaurant -->
+                                    <h2><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h2>
+                                    
+                                    <!-- adresse  (commune et département) -->
                                     <p>
-                                        <a href="<?php echo htmlspecialchars($restaurant['site_restaurant']); ?>" target="_blank">
-                                            Visiter le site
-                                        </a>
+                                        <?php 
+                                            // Vous pouvez adapter ces informations selon vos besoins
+                                            echo htmlspecialchars($restaurant['commune']) . ' - ' . htmlspecialchars($restaurant['departement']);
+                                        ?>
                                     </p>
-                                <?php endif; ?>
-                                
-                                <!-- téléphone -->
-                                <?php if(!empty($restaurant['telephone_restaurant'])): ?>
-                                    <p><?php echo htmlspecialchars($restaurant['telephone_restaurant']); ?></p>
-                                <?php endif; ?>
+                                    
+                                    <!-- site web si disponible -->
+                                    <?php if(!empty($restaurant['site_restaurant'])): ?>
+                                        <p>
+                                            <a href="<?php echo htmlspecialchars($restaurant['site_restaurant']); ?>" target="_blank">
+                                                Visiter le site
+                                            </a>
+                                        </p>
+                                    <?php endif; ?>
+                                    
+                                    <!-- téléphone -->
+                                    <?php if(!empty($restaurant['telephone_restaurant'])): ?>
+                                        <p><?php echo htmlspecialchars($restaurant['telephone_restaurant']); ?></p>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
                     <?php endforeach; ?>
