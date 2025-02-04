@@ -1,16 +1,14 @@
-/* Réinitialisation de certains styles par défaut */
-
-@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
+  }
 
-body {
+  body {
     background-color: #f9f9f9;
     font-family: 'Sarabun', sans-serif;
+    line-height: 1.4;
+  }
 }
 
 nav > button > a {
@@ -18,61 +16,152 @@ nav > button > a {
     color: white;
 }
 
-/* La nav bar */
 
-nav {
+  /* Barre de navigation */
+  nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: white;
-    padding: 1rem 2rem;
-    font-size: 1rem;
-}
+    background-color: #fff;
+    padding: 1rem 10rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
-nav > ul {
-    display: flex;
-    list-style-type: none;
-}
-
-nav > ul > li {
-    margin-right: 1rem;
-}
-
-nav > ul > li > a {
-    text-decoration: none;
-    color: black;
-    border-radius: 40rem;
-    padding: 0.5rem 1rem;
-    transition: background-color 1s ease; /* Ajout de la transition */
-}
-
-/* au survol sur le bouton */
-
-nav > ul > li > a:hover {
-    background-color: #f2f2f2;
-    transition: background-color 1s ease; /* Ajout de la transition */
-}
-
-#logo {
+  /* Logo */
+  #logo {
     display: flex;
     align-items: center;
     font-weight: bold;
+    color: #031D44;
+    text-decoration: none;
+  }
 
-}
-
-#logo > img {
+  #logo img {
     width: 2em;
     margin-right: 0.5em;
-}
+  }
 
+  /* Liste d'éléments dans la nav */
+  nav > ul {
+    display: flex;
+    list-style-type: none;
+  }
 
-/* bouton se connecter  */
+  nav > ul > li {
+    margin-right: 1rem;
+  }
 
-button {
+  nav > ul > li > a {
+    text-decoration: none;
+    color: #000;
+    border-radius: 40rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.4s ease;
+  }
+
+  nav > ul > li > a:hover {
+    background-color: #f2f2f2;
+  }
+
+  /* Bouton Se Connecter */
+  nav button {
     background-color: #031D44;
-    color: white;
+    color: #fff;
     padding: 0.5rem 1.3rem;
     border: none;
     border-radius: 40rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  nav button:hover {
+    background-color: #023169;
+  }
+
+  /* Section principale (Search bar) */
+  main.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, #fff 0%, #f9f9f9 100%);
+    padding: 2rem;
+  }
+
+  .search-container {
+    display: flex;
+    align-items: center;
+    border-radius: 2rem;
+    background-color: #fff;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .search-container:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  .search-container input {
+    border: none;
+    outline: none;
+    padding: 0.8rem;
+    font-size: 1rem;
+    width: 300px;
+    border-radius: 2rem;
+  }
+
+  .search-container button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .search-container img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .search-container input::placeholder {
+    color: #999;
+  }
+
+  .search-info {
+    margin-top: 1.5rem;
+    color: #555;
+    text-align: center;
+    max-width: 600px;
+  }
+
+  footer {
+    background-color: #fff;
+    padding: 2rem 10rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+    border-top: 1px solid #e2e2e2;
+  }
+
+
+/* Affichage des restaurants */
+
+
+div.restaurant-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(700px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+  min-width: 300px;
 }
+
+div.restaurant {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+div.restaurant-info {
+  padding: 1rem;
+  min-height: 150px;
+}   
