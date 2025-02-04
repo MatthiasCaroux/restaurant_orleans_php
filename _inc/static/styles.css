@@ -9,6 +9,13 @@
     font-family: 'Sarabun', sans-serif;
     line-height: 1.4;
   }
+}
+
+nav > button > a {
+    text-decoration: none;
+    color: white;
+}
+
 
   /* Barre de navigation */
   nav {

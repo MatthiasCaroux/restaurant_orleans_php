@@ -1,0 +1,47 @@
+/* Gestion de la page d'inscription */
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  main > h1 {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  main > h2 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  main > form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  main > form > label {
+    margin-bottom: 1rem;
+  }
+  
+  main > form > input {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #999999;
+    margin-bottom: 1rem;
+  }
+  
+  /* Style pour la ligne horizontale personnalisée */
+  hr.separator {
+    width: 80%;         /* Ajuste la largeur si besoin */
+    height: 2px;        /* Épaisseur de la ligne */
+    background-color: black;
+    border: none;
+    margin: 2rem auto;  /* Espace autour et centrée */
+  }
+  
