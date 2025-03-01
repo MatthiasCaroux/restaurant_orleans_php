@@ -62,7 +62,7 @@ nav > ul > li > a:hover {
     background-color: #f2f2f2;
 }
 
-/* Bouton Se Connecter */
+/* Boutons de connexion et déconnexion */
 nav button {
     background-color: #031D44;
     color: #fff;
@@ -75,6 +75,61 @@ nav button {
 
 nav button:hover {
     background-color: #023169;
+}
+
+/* Style spécifique pour le bouton de déconnexion */
+.logout-btn {
+    background-color: #d9534f;
+}
+
+.logout-btn:hover {
+    background-color: #c9302c;
+}
+
+/* Style pour l'info utilisateur */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.username {
+    font-weight: 500;
+    color: #031D44;
+}
+
+/* Boutons de connexion et inscription dans les pages login et register */
+main form button, 
+main a button {
+    background-color: #031D44;
+    color: #fff;
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 40rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 250px;
+}
+
+main form button:hover, 
+main a button:hover {
+    background-color: #023169;
+}
+
+/* Style pour les messages d'erreur */
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
 }
 
 
@@ -102,6 +157,11 @@ nav button:hover {
   }
   
   nav button {
+      margin-top: 1rem;
+  }
+  
+  .user-info {
+      flex-direction: column;
       margin-top: 1rem;
   }
 }

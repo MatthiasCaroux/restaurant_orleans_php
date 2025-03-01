@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Fichier pour la connexion a la bd
-require __DIR__ . "/../bd/db.php";
+require_once __DIR__ . "/../bd/db.php";
 
 // Récupération des restaurants depuis la table "Restaurant"
 try {
