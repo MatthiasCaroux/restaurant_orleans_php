@@ -2,69 +2,68 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-
-  body {
-    background-color: #f9f9f9;
-    font-family: 'Sarabun', sans-serif;
-    line-height: 1.4;
-  }
 }
 
+body {
+  background-color: #f9f9f9;
+  font-family: 'Sarabun', sans-serif;
+  line-height: 1.4;
+}
+
+/* Navigation */
 nav > button > a {
     text-decoration: none;
     color: white;
 }
 
-
-  /* Barre de navigation */
-  nav {
+/* Barre de navigation */
+nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #fff;
     padding: 1rem 10rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+}
 
-  /* Logo */
-  #logo {
+/* Logo */
+#logo {
     display: flex;
     align-items: center;
     font-weight: bold;
     color: #031D44;
     text-decoration: none;
-  }
+}
 
-  #logo img {
+#logo img {
     width: 2em;
     margin-right: 0.5em;
-  }
+}
 
-  /* Liste d'éléments dans la nav */
-  nav > ul {
+/* Liste d'éléments dans la nav */
+nav > ul {
     display: flex;
     list-style-type: none;
-  }
+}
 
-  nav > ul > li {
+nav > ul > li {
     margin-right: 1rem;
-  }
+}
 
-  nav > ul > li > a {
+nav > ul > li > a {
     text-decoration: none;
     color: #000;
     border-radius: 40rem;
     padding: 0.5rem 1rem;
     transition: background-color 0.4s ease;
-  }
+}
 
-  nav > ul > li > a:hover {
+nav > ul > li > a:hover {
     background-color: #f2f2f2;
-  }
+}
 
-  /* Bouton Se Connecter */
-  nav button {
+/* Boutons de connexion et déconnexion */
+nav button {
     background-color: #031D44;
     color: #fff;
     padding: 0.5rem 1.3rem;
@@ -72,23 +71,114 @@ nav > button > a {
     border-radius: 40rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-  }
+}
 
-  nav button:hover {
+nav button:hover {
     background-color: #023169;
-  }
+}
 
-  /* Section principale (Search bar) */
-  main.home {
+/* Style spécifique pour le bouton de déconnexion */
+.logout-btn {
+    background-color: #d9534f;
+}
+
+.logout-btn:hover {
+    background-color: #c9302c;
+}
+
+/* Style pour l'info utilisateur */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.username {
+    font-weight: 500;
+    color: #031D44;
+}
+
+/* Boutons de connexion et inscription dans les pages login et register */
+main form button, 
+main a button {
+    background-color: #031D44;
+    color: #fff;
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 40rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 250px;
+}
+
+main form button:hover, 
+main a button:hover {
+    background-color: #023169;
+}
+
+/* Style pour les messages d'erreur */
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+
+
+
+/* =================== */
+/* Navbar Responsive   */
+/* =================== */
+
+@media (max-width: 1200px) {
+  nav {
+      flex-direction: column;
+      padding: 1rem 2rem;  /* Réduction du padding horizontal */
+  }
+  
+  nav > ul {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-top: 1rem;
+  }
+  
+  nav > ul > li {
+      margin: 0.5rem 0; /* Espacement vertical simplifié */
+  }
+  
+  nav button {
+      margin-top: 1rem;
+  }
+  
+  .user-info {
+      flex-direction: column;
+      margin-top: 1rem;
+  }
+}
+
+
+
+/* Section principale (Search bar) */
+main.home {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: linear-gradient(to bottom, #fff 0%, #f9f9f9 100%);
     padding: 2rem;
-  }
+}
 
-  .search-container {
+.search-container {
     display: flex;
     align-items: center;
     border-radius: 2rem;
@@ -96,72 +186,131 @@ nav > button > a {
     padding: 0.5rem 1rem;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
-  }
+}
 
-  .search-container:hover {
+.search-container:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  }
+}
 
-  .search-container input {
+.search-container input {
     border: none;
     outline: none;
     padding: 0.8rem;
     font-size: 1rem;
     width: 300px;
     border-radius: 2rem;
-  }
+}
 
-  .search-container button {
+.search-container button {
     background: none;
     border: none;
     outline: none;
     cursor: pointer;
-  }
+}
 
-  .search-container img {
+.search-container img {
     width: 1.5rem;
     height: 1.5rem;
-  }
+}
 
-  .search-container input::placeholder {
+.search-container input::placeholder {
     color: #999;
-  }
+}
 
-  .search-info {
+.search-info {
     margin-top: 1.5rem;
     color: #555;
     text-align: center;
     max-width: 600px;
-  }
+}
 
-  footer {
+footer {
     background-color: #fff;
     padding: 2rem 10rem;
     text-align: center;
     font-size: 0.9rem;
     color: #666;
     border-top: 1px solid #e2e2e2;
-  }
-
+}
 
 /* Affichage des restaurants */
-
-
 div.restaurant-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(700px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(1000px, 1fr));
   gap: 1rem;
   padding: 2rem;
-  min-width: 300px;
 }
 
 div.restaurant {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  border-radius: 0.5rem;
 }
 
 div.restaurant-info {
-  padding: 1rem;
-  min-height: 150px;
-}   
+  display: flex;
+  align-items: stretch; /* Assure que les éléments enfants s'étendent sur toute la hauteur du conteneur */
+}
+
+div.restaurant-info > h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+div.restaurant-info > div > p {
+  color: #666;
+  font-size: 1.5rem;
+}
+
+div.restaurant-info > div > p > a {
+  color: #031D44;
+  text-decoration: none;
+}
+
+div.restaurant-info img {
+  object-fit: cover;
+  margin-right: 1rem;
+  height: 100%; /* Hauteur égale à celle du conteneur */
+  width: 300px; /* Largeur fixe */
+  flex-shrink: 0; /* Empêche l'image de rétrécir */
+}
+
+/* ... Votre CSS global reste inchangé ... */
+
+/* =================== */
+/* Styles Responsive   */
+/* =================== */
+
+/* Pour les écrans petits (mobiles, max-width: 768px) */
+@media (max-width: 1200px) {
+  /* Affichage d'une seule colonne pour la grille des restaurants */
+  div.restaurant-container {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+  }
+  
+  /* Passage de la disposition en ligne à la disposition en colonne */
+  div.restaurant-info {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+  
+  /* Adaptation de la taille de l'image */
+  div.restaurant-info img {
+      width: 100%;       /* L'image prend la largeur du conteneur */
+      max-width: 250px;  /* Largeur maximale pour éviter qu'elle ne soit trop grande */
+      height: auto;      /* Maintien des proportions */
+      margin-bottom: 1rem;
+  }
+  
+  /* Ajustement des titres et paragraphes pour une meilleure lisibilité sur mobile */
+  div.restaurant-info > h2 {
+      font-size: 1.5rem;
+  }
+  
+  div.restaurant-info > div > p {
+      font-size: 1rem;
+  }
+}

@@ -6,42 +6,87 @@ main {
     justify-content: center;
     align-items: center;
     padding: 2rem;
+    min-height: 70vh;
   }
   
   main > h1 {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     text-align: center;
+    color: #031D44;
+    font-size: 2.2rem;
   }
   
   main > h2 {
     margin-top: 1rem;
     margin-bottom: 2rem;
     text-align: center;
+    color: #333;
+    font-size: 1.5rem;
   }
   
   main > form {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
   
   main > form > label {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
   }
   
   main > form > input {
-    padding: 0.5rem;
+    padding: 0.8rem;
     border-radius: 0.5rem;
-    border: 1px solid #999999;
-    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  main > form > input:focus {
+    border-color: #031D44;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(3, 29, 68, 0.2);
+  }
+  
+  main > form > button {
+    margin-top: 1rem;
+    align-self: center;
   }
   
   /* Style pour la ligne horizontale personnalisée */
   hr.separator {
-    width: 80%;         /* Ajuste la largeur si besoin */
-    height: 2px;        /* Épaisseur de la ligne */
-    background-color: black;
+    width: 80%;
+    height: 1px;
+    background-color: #ddd;
     border: none;
-    margin: 2rem auto;  /* Espace autour et centrée */
+    margin: 2.5rem auto;
+  }
+  
+  /* Style pour les messages d'erreur */
+  .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    main > form {
+      padding: 1.5rem;
+      width: 90%;
+    }
   }
   
