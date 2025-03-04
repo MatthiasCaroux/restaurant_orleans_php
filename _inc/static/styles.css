@@ -251,6 +251,7 @@ div.restaurant {
 div.restaurant-info {
   display: flex;
   align-items: stretch; /* Assure que les éléments enfants s'étendent sur toute la hauteur du conteneur */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; 
 }
 
 div.restaurant-info > h2 {
@@ -276,6 +277,16 @@ div.restaurant-info img {
   flex-shrink: 0; /* Empêche l'image de rétrécir */
 }
 
+.restaurant-info:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.restaurant-link {
+    text-decoration: none;
+    display: block;
+    color: inherit;
+}
 /* ... Votre CSS global reste inchangé ... */
 
 /* =================== */

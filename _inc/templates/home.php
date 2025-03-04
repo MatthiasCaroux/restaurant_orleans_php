@@ -79,10 +79,12 @@ foreach ($restaurant_images as $item) {
                                     <!-- Site web si disponible -->
                                     <?php if(!empty($restaurant['site_restaurant'])): ?>
                                         <p>
-                                            <a href="<?php echo htmlspecialchars($restaurant['site_restaurant']); ?>" target="_blank">
-                                                Visiter le site
-                                            </a>
+                                            <?php 
+                                                // Vous pouvez adapter ces informations selon vos besoins
+                                                echo htmlspecialchars($restaurant['commune']) . ' - ' . htmlspecialchars($restaurant['departement']);
+                                            ?>
                                         </p>
+
                                     <?php endif; ?>
                                     
                                     <!-- Téléphone -->
