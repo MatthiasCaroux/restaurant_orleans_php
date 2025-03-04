@@ -325,3 +325,30 @@ div.restaurant-info img {
       font-size: 1rem;
   }
 }
+
+
+
+/* Pour que le bouton coeur soit positionné par rapport à la div restaurant */
+div.restaurant {
+    position: relative;
+  }
+  
+  /* Style du bouton coeur */
+  .heart-btn {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    transition: transform 0.2s;
+  }
+  
+  /* Optionnel : ajuster la taille de l'icône */
+  .heart-btn img {
+    width: 24px; /* Ajustez la taille selon vos préférences */
+    height: auto;
+  }
+  
