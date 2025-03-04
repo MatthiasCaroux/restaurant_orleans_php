@@ -1,5 +1,5 @@
 <?php
-$cssPath = "_inc/static/style_avis.css";
+$cssPath = "./_inc/static/";
 ?>
 
 <!DOCTYPE html>
@@ -7,7 +7,7 @@ $cssPath = "_inc/static/style_avis.css";
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un avis - IUTables</title>
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>style.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>style_avis.css">
 </head>
 <body>
     <header>
@@ -38,15 +38,35 @@ $cssPath = "_inc/static/style_avis.css";
                     <label for="notation">Donnez une notation</label>
                     <div class="rating">
                         <input type="radio" id="star5" name="rating" value="5" />
-                        <label for="star5"></label>
+                        <label for="star5">
+                            <svg class="star" viewBox="-2 -2 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="m10 15-5.9 3 1.1-6.5L.5 7 7 6 10 0l3 6 6.5 1-4.7 4.5 1 6.6z"/>
+                            </svg>
+                        </label>
                         <input type="radio" id="star4" name="rating" value="4" />
-                        <label for="star4"></label>
+                        <label for="star4">
+                            <svg class="star" viewBox="-2 -2 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="m10 15-5.9 3 1.1-6.5L.5 7 7 6 10 0l3 6 6.5 1-4.7 4.5 1 6.6z"/>
+                            </svg>
+                        </label>
                         <input type="radio" id="star3" name="rating" value="3" checked />
-                        <label for="star3"></label>
+                        <label for="star3">
+                            <svg class="star" viewBox="-2 -2 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="m10 15-5.9 3 1.1-6.5L.5 7 7 6 10 0l3 6 6.5 1-4.7 4.5 1 6.6z"/>
+                            </svg>
+                        </label>
                         <input type="radio" id="star2" name="rating" value="2" />
-                        <label for="star2"></label>
+                        <label for="star2">
+                            <svg class="star" viewBox="-2 -2 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="m10 15-5.9 3 1.1-6.5L.5 7 7 6 10 0l3 6 6.5 1-4.7 4.5 1 6.6z"/>
+                            </svg>
+                        </label>
                         <input type="radio" id="star1" name="rating" value="1" />
-                        <label for="star1"></label>
+                        <label for="star1">
+                            <svg class="star" viewBox="-2 -2 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="m10 15-5.9 3 1.1-6.5L.5 7 7 6 10 0l3 6 6.5 1-4.7 4.5 1 6.6z"/>
+                            </svg>
+                        </label>
                     </div>
                 </div>
                 
