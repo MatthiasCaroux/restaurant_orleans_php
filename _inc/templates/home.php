@@ -46,7 +46,8 @@ $cssPath = "_inc/static/";
                 <?php if(!empty($restaurants)): ?>
                     <?php foreach($restaurants as $restaurant): ?>
                         <div class="restaurant">
-                            <a href="pageResto.php?id=<?php echo $restaurant['id_restaurant']; ?>" class="restaurant-link">
+                            <a href="pageResto.php?id=<?php echo $restaurant['id_restaurant']; ?>" class="restaurant-link" target="_self">
+
                                 <div class="restaurant-info">
                                         <!-- photo du resto -->
                                         <img src="<?php echo $cssPath; ?>bk.jpeg" alt="Logo de bk en mode">
@@ -69,7 +70,7 @@ $cssPath = "_inc/static/";
                                         <?php endif; ?>
                                     </div>
                                 </div>
-                            <a>
+                            </a>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
