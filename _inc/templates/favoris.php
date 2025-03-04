@@ -19,19 +19,6 @@ try {
 
 // Chemin vers vos fichiers statiques (CSS, images, etc.)
 $cssPath = "_inc/static/";
-$isLoggedIn = isset($_SESSION['user_id']);
-
-// Charger le fichier JSON des images
-$json_file = file_get_contents(__DIR__ . '/../data/restaurant_images.json');
-$restaurant_images = json_decode($json_file, true);
-
-// Créer un tableau associatif pour un accès rapide aux images par nom de restaurant
-$image_map = array();
-foreach ($restaurant_images as $item) {
-    if (isset($item['name']) && isset($item['image_url'])) {
-        $image_map[$item['name']] = $item['image_url'];
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -59,12 +46,7 @@ foreach ($restaurant_images as $item) {
                         <div class="restaurant">
                             <div class="restaurant-info">
                                 <!-- Photo du restaurant -->
-                                <?php
-                                    $restaurant_name = $restaurant['nom_restaurant'];
-                                    $default_image = $cssPath . 'bk.jpeg';
-                                    $image_url = isset($image_map[$restaurant_name]) ? $image_map[$restaurant_name] : $default_image;
-                                ?>
-                                <img src="<?php echo htmlspecialchars($image_url); ?>" alt="Photo de <?php echo htmlspecialchars($restaurant_name); ?>">
+                                <img src="<?php echo $cssPath; ?>bk.jpeg" alt="Logo de bk en mode">
                                 <div>
                                     <!-- Nom du restaurant -->
                                     <h2><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h2>
@@ -92,11 +74,9 @@ foreach ($restaurant_images as $item) {
                                 </div>
                             </div>
                             <!-- Bouton coeur placé à droite -->
-                            <?php if ($isLoggedIn): ?>
-                                <button class="heart-btn">
-                                    <img src="<?php echo $cssPath; ?>coeur.svg" alt="Ajouter aux favoris">
-                                </button>
-                            <?php endif; ?>
+                            <button class="heart-btn">
+                                <img src="<?php echo $cssPath; ?>coeur.svg" alt="Ajouter aux favoris">
+                            </button>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
