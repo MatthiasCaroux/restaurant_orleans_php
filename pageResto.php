@@ -42,7 +42,7 @@ $cssPath = "_inc/static/";
 </head>
 <body>
     <main class="restaurant-details">
-        <a href="home.php" class="retour-btn">Retour à la liste</a>
+        <a href="index.php" class="retour-btn">Retour à la liste</a>
         
         <div class="restaurant-header">
             <img src="<?php echo $cssPath; ?>bk.jpeg" alt="Photo du restaurant" class="restaurant-image">
