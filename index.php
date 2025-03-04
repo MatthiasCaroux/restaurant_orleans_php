@@ -17,11 +17,11 @@ if (isset($_GET['action'])) {
                 $email = $_POST['email'];
                 $password = $_POST['password'];
                 
-                // Journaliser les tentatives de connexion
+                // log pour savoir si la connexion est réussie ou non
                 error_log("Tentative de connexion pour l'email: " . $email);
                 
                 if (authenticateUser($email, $password)) {
-                    // Redirection vers la page d'index après connexion réussie
+                    // Redirection vers la page index si la connexion réussie 
                     header('Location: index.php');
                     exit();
                 } else {

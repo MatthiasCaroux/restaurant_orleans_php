@@ -56,50 +56,52 @@ foreach ($restaurant_images as $item) {
             <div class="restaurant-container">
                 <?php if(!empty($restaurants)): ?>
                     <?php foreach($restaurants as $restaurant): ?>
-                        <div class="restaurant">
-                            <div class="restaurant-info">
-                                <!-- Photo du restaurant -->
-                                <?php
-                                    $restaurant_name = $restaurant['nom_restaurant'];
-                                    $default_image = $cssPath . 'bk.jpeg';
-                                    $image_url = isset($image_map[$restaurant_name]) ? $image_map[$restaurant_name] : $default_image;
-                                ?>
-                                <img src="<?php echo htmlspecialchars($image_url); ?>" alt="Photo de <?php echo htmlspecialchars($restaurant_name); ?>">
-                                <div>
-                                    <!-- Nom du restaurant -->
-                                    <h2><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h2>
-                                    
-                                    <!-- Adresse (commune et département) -->
-                                    <p>
-                                        <?php 
-                                            echo htmlspecialchars($restaurant['commune']) . ' - ' . htmlspecialchars($restaurant['departement']);
-                                        ?>
-                                    </p>
-                                    
-                                    <!-- Site web si disponible -->
-                                    <?php if(!empty($restaurant['site_restaurant'])): ?>
+                        <a href="pageResto.php?id=<?php echo $restaurant['id_restaurant']; ?>" class="restaurant-link">
+                            <div class="restaurant">
+                                <div class="restaurant-info">
+                                    <!-- Photo du restaurant -->
+                                    <?php
+                                        $restaurant_name = $restaurant['nom_restaurant'];
+                                        $default_image = $cssPath . 'bk.jpeg';
+                                        $image_url = isset($image_map[$restaurant_name]) ? $image_map[$restaurant_name] : $default_image;
+                                    ?>
+                                    <img src="<?php echo htmlspecialchars($image_url); ?>" alt="Photo de <?php echo htmlspecialchars($restaurant_name); ?>">
+                                    <div>
+                                        <!-- Nom du restaurant -->
+                                        <h2><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h2>
+                                        
+                                        <!-- Adresse (commune et département) -->
                                         <p>
                                             <?php 
-                                                // Vous pouvez adapter ces informations selon vos besoins
                                                 echo htmlspecialchars($restaurant['commune']) . ' - ' . htmlspecialchars($restaurant['departement']);
                                             ?>
                                         </p>
+                                        
+                                        <!-- Site web si disponible -->
+                                        <?php if(!empty($restaurant['site_restaurant'])): ?>
+                                            <p>
+                                                <?php 
+                                                    // Vous pouvez adapter ces informations selon vos besoins
+                                                    echo htmlspecialchars($restaurant['commune']) . ' - ' . htmlspecialchars($restaurant['departement']);
+                                                ?>
+                                            </p>
 
-                                    <?php endif; ?>
-                                    
-                                    <!-- Téléphone -->
-                                    <?php if(!empty($restaurant['telephone_restaurant'])): ?>
-                                        <p><?php echo htmlspecialchars($restaurant['telephone_restaurant']); ?></p>
-                                    <?php endif; ?>
+                                        <?php endif; ?>
+                                        
+                                        <!-- Téléphone -->
+                                        <?php if(!empty($restaurant['telephone_restaurant'])): ?>
+                                            <p><?php echo htmlspecialchars($restaurant['telephone_restaurant']); ?></p>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
+                                <!-- Bouton coeur placé à droite -->
+                                <?php if ($isLoggedIn): ?>
+                                    <button class="heart-btn">
+                                        <img src="<?php echo $cssPath; ?>coeur.svg" alt="Ajouter aux favoris">
+                                    </button>
+                                <?php endif; ?>
                             </div>
-                            <!-- Bouton coeur placé à droite -->
-                            <?php if ($isLoggedIn): ?>
-                                <button class="heart-btn">
-                                    <img src="<?php echo $cssPath; ?>coeur.svg" alt="Ajouter aux favoris">
-                                </button>
-                            <?php endif; ?>
-                        </div>
+                        </a>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p>Aucun restaurant trouvé.</p>
