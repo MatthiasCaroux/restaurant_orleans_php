@@ -1,4 +1,28 @@
 <?php
+session_start();
+
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    die("ID de restaurant invalide");
+}
+
+$restaurant_id = intval($_GET['id']);
+
+require_once "_inc/bd/db.php";
+
+try {
+    $pdo = getPDO();
+    $sql = 'SELECT nom_restaurant FROM "Restaurant" WHERE id_restaurant = :id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['id' => $restaurant_id]);
+    $restaurant = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$restaurant) {
+        die("Restaurant non trouvé");
+    }
+} catch (PDOException $e) {
+    die("Erreur lors de la récupération du restaurant : " . $e->getMessage());
+}
+
 $cssPath = "./_inc/static/";
 ?>
 
@@ -6,7 +30,7 @@ $cssPath = "./_inc/static/";
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Ajouter un avis - IUTables</title>
+    <title>Ajouter un avis - <?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></title>
     <link rel="stylesheet" href="<?php echo $cssPath; ?>style_avis.css">
 </head>
 <body>
@@ -28,9 +52,11 @@ $cssPath = "./_inc/static/";
     </header>
 
     <main class="ajouter-avis">
-        <h1>Ajouter un avis</h1>
+        <h1>Ajouter un avis pour <?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h1>
         
         <form method="post" action="traitement_avis.php" class="avis-form">
+            <input type="hidden" name="restaurant_id" value="<?php echo $restaurant_id; ?>">
+            
             <div class="form-container">
                 <h2>Personnalisez vos préférences</h2>
                 
@@ -72,17 +98,17 @@ $cssPath = "./_inc/static/";
                 
                 <div class="form-group">
                     <label for="titre">Donnez un titre</label>
-                    <input type="text" id="titre" name="titre" placeholder="Titre de l'avis" required>
+                    <input type="text" id="titre" name="titre" placeholder="Titre de l'avis" required maxlength="100">
                 </div>
                 
                 <div class="form-group">
                     <label for="avis">Rédigez votre avis</label>
-                    <textarea id="avis" name="avis" rows="5" placeholder="Avis" required></textarea>
+                    <textarea id="avis" name="avis" rows="5" placeholder="Avis" required maxlength="500"></textarea>
                 </div>
                 
                 <div class="form-actions">
                     <button type="submit" class="btn-submit">Publier l'avis</button>
-                    <button type="button" class="btn-cancel">Annuler</button>
+                    <button type="button" class="btn-cancel" onclick="window.location.href='pageResto.php?id=<?php echo $restaurant_id; ?>'">Annuler</button>
                 </div>
             </div>
         </form>
