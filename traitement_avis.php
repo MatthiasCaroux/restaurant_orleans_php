@@ -15,24 +15,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!isset($_POST['restaurant_id']) || !is_numeric($_POST['restaurant_id'])) {
         $errors[] = "ID de restaurant invalide.";
+        $restaurant_id = 0;
     } else {
         $restaurant_id = intval($_POST['restaurant_id']);
     }
 
     if (!isset($_POST['rating']) || !in_array($_POST['rating'], [1, 2, 3, 4, 5])) {
         $errors[] = "Notation invalide.";
+        $rating = 3;
     } else {
         $rating = intval($_POST['rating']);
     }
 
     if (!isset($_POST['titre']) || empty($_POST['titre']) || strlen($_POST['titre']) > 100) {
         $errors[] = "Titre invalide. Il doit être entre 1 et 100 caractères.";
+        $titre = '';
     } else {
         $titre = cleanInput($_POST['titre']);
     }
 
     if (!isset($_POST['avis']) || empty($_POST['avis']) || strlen($_POST['avis']) > 500) {
         $errors[] = "Avis invalide. Il doit être entre 1 et 500 caractères.";
+        $avis = '';
     } else {
         $avis = cleanInput($_POST['avis']);
     }
@@ -48,18 +52,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $sql = 'INSERT INTO "Avis" (
             id_restaurant, 
-            note_avis, 
-            titre_avis, 
-            contenu_avis, 
-            date_avis, 
-            id_utilisateur
+            note, 
+            titre, 
+            text
         ) VALUES (
             :restaurant_id, 
             :rating, 
             :titre, 
-            :avis, 
-            CURRENT_TIMESTAMP, 
-            :user_id
+            :avis
         )';
 
         $stmt = $pdo->prepare($sql);
@@ -67,8 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ':restaurant_id' => $restaurant_id,
             ':rating' => $rating,
             ':titre' => $titre,
-            ':avis' => $avis,
-            ':user_id' => $_SESSION['user_id']
+            ':avis' => $avis
         ]);
 
         $_SESSION['review_success'] = "Votre avis a été publié avec succès !";
