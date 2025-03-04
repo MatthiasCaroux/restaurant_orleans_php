@@ -73,10 +73,6 @@ $cssPath = "_inc/static/";
                                     <?php endif; ?>
                                 </div>
                             </div>
-                            <!-- Bouton coeur placé à droite -->
-                            <button class="heart-btn">
-                                <img src="<?php echo $cssPath; ?>coeur.svg" alt="Ajouter aux favoris">
-                            </button>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>

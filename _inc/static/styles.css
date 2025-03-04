@@ -331,6 +331,8 @@ div.restaurant {
     background: none;
     border: none;
     cursor: pointer;
+    padding: 8px;
+    transition: transform 0.2s;
   }
   
   /* Optionnel : ajuster la taille de l'icône */
