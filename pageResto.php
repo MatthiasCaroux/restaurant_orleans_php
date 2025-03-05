@@ -38,9 +38,10 @@ $cssPath = "_inc/static/";
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></title>
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>style.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles.css">
 </head>
 <body>
+    <?php include_once '_inc/templates/header.php'; ?>
     <main class="restaurant-details">
         <a href="index.php" class="retour-btn">Retour à la liste</a>
         
@@ -68,6 +69,17 @@ $cssPath = "_inc/static/";
                     <p>
                         <strong>Email :</strong> 
                         <?php echo htmlspecialchars($restaurant['email_restaurant']); ?>
+                    </p>
+                <?php endif; ?>
+
+                <?php if(!empty($restaurant['site_restaurant'])): ?>
+                    <p>
+                        <strong>Site web :</strong> 
+                        <a href="<?php echo htmlspecialchars($restaurant['site_restaurant']); ?>" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            Visiter le site web
+                        </a>
                     </p>
                 <?php endif; ?>
             </div>

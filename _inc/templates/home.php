@@ -39,7 +39,8 @@ foreach ($restaurant_images as $item) {
 <head>
     <meta charset="UTF-8">
     <title>Liste des Restaurants</title>
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>style.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>style_page_resto.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles.css">
 </head>
 <body>
     <main class="home">
@@ -75,19 +76,7 @@ foreach ($restaurant_images as $item) {
                                             <?php 
                                                 echo htmlspecialchars($restaurant['commune']) . ' - ' . htmlspecialchars($restaurant['departement']);
                                             ?>
-                                        </p>
-                                        
-                                        <!-- Site web si disponible -->
-                                        <?php if(!empty($restaurant['site_restaurant'])): ?>
-                                            <p>
-                                                <?php 
-                                                    // Vous pouvez adapter ces informations selon vos besoins
-                                                    echo htmlspecialchars($restaurant['commune']) . ' - ' . htmlspecialchars($restaurant['departement']);
-                                                ?>
-                                            </p>
-
-                                        <?php endif; ?>
-                                        
+                                        </p>                                    
                                         <!-- Téléphone -->
                                         <?php if(!empty($restaurant['telephone_restaurant'])): ?>
                                             <p><?php echo htmlspecialchars($restaurant['telephone_restaurant']); ?></p>
