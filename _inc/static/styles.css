@@ -486,3 +486,6 @@ div.restaurant {
         padding: 1.5rem;
     }
 } 
+.cacher{
+    display: none;
+}

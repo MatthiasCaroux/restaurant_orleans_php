@@ -13,6 +13,11 @@ try {
     $sql = 'SELECT * FROM "Restaurant"';
     $stmt = $pdo->query($sql);
     $restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // récupérer les différents types de restaurant en bd pour les afficher après
+    $sql = 'SELECT DISTINCT "type_restaurant" from "Restaurant"';
+    $stmt = $pdo->query($sql);
+    $tout_type = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Erreur lors de la récupération des restaurants : " . $e->getMessage());
 }
@@ -50,9 +55,14 @@ foreach ($restaurant_images as $item) {
                 <img src="<?php echo $cssPath; ?>loupe.png" alt="Logo">
             </button>
         </div>
-        <p class="search-info">
+        <p id="recherche" class="search-info">
             Trouvez des restaurants, hôtels et bien plus encore, près de chez vous ou n'importe où dans le monde.
         </p>
+        <select id="recherche_by_type" class="search-info">
+            <?php foreach($tout_type as $type): ?>
+            <option><?php echo htmlspecialchars($type['type_restaurant']); ?></option>
+            <?php endforeach; ?>
+        </select>
         <section>
             <div class="restaurant-container">
                 <?php if(!empty($restaurants)): ?>
@@ -63,6 +73,7 @@ foreach ($restaurant_images as $item) {
                                     <!-- Photo du restaurant -->
                                     <?php
                                         $restaurant_name = $restaurant['nom_restaurant'];
+                                        $restaurant_type = $restaurant['type_restaurant'];
                                         $default_image = $cssPath . 'bk.jpeg';
                                         $image_url = isset($image_map[$restaurant_name]) ? $image_map[$restaurant_name] : $default_image;
                                     ?>
@@ -82,6 +93,9 @@ foreach ($restaurant_images as $item) {
                                             <p><?php echo htmlspecialchars($restaurant['telephone_restaurant']); ?></p>
                                         <?php endif; ?>
                                     </div>
+                                    <div class="cacher">
+                                        <?php  echo $restaurant['type_restaurant'];?>
+                                    </div>
                                 </div>
                                 <!-- Bouton coeur placé à droite -->
                                 <?php if ($isLoggedIn): ?>
@@ -99,4 +113,5 @@ foreach ($restaurant_images as $item) {
         </section>
     </main>
 </body>
+<script src="_inc/static/js/recherche.js"></script>
 </html>
