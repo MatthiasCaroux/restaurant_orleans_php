@@ -6,6 +6,10 @@ error_reporting(E_ALL);
 // Fichier pour la connexion à la bd
 require_once "_inc/bd/db.php";
 
+// Charger le fichier JSON des images
+$imagesJson = file_get_contents('_inc/data/restaurant_images.json');
+$imagesData = json_decode($imagesJson, true);
+
 // Récupération de l'ID du restaurant depuis l'URL
 $id_restaurant = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
@@ -24,6 +28,15 @@ try {
 
     if (!$restaurant) {
         die("Restaurant non trouvé");
+    }
+
+    // Trouver l'image correspondante dans le JSON
+    $restaurantImage = null;
+    foreach ($imagesData as $image) {
+        if ($image['name'] === $restaurant['nom_restaurant']) {
+            $restaurantImage = $image['image_url'];
+            break;
+        }
     }
 } catch (PDOException $e) {
     die("Erreur lors de la récupération du restaurant : " . $e->getMessage());
@@ -46,7 +59,7 @@ $cssPath = "_inc/static/";
         <a href="index.php" class="retour-btn">Retour à la liste</a>
         
         <div class="restaurant-header">
-            <img src="<?php echo $cssPath; ?>bk.jpeg" alt="Photo du restaurant" class="restaurant-image">
+            <img src="<?php echo $restaurantImage ?: $cssPath . 'default-restaurant.jpg'; ?>" alt="Photo du restaurant" class="restaurant-image">
             <h1><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h1>
         </div>
 
