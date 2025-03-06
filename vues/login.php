@@ -46,7 +46,7 @@ $imagesPath = "../_inc/static/images/";
     <!-- Ligne horizontale personnalisée -->
     <hr class="separator">
     <h2>Pas encore de compte ?</h2>
-    <a href="register.php"><button>Inscrivez-vous</button></a>
+    <a href="/vues/register.php"><button>Inscrivez-vous</button></a>
   </main>
 </body>
 </html>
