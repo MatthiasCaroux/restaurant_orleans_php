@@ -98,7 +98,7 @@ $imagesPath = "../_inc/static/images/";
     <?php include_once '../_inc/templates/header.php'; ?>
     <main class="restaurant-details">
         <div class="header-actions">
-            <a href="index.php" class="retour-btn"><i class="fas fa-arrow-left"></i> Retour à la liste</a>
+            <a href="/index.php" class="retour-btn"><i class="fas fa-arrow-left"></i> Retour à la liste</a>
             <?php if ($isLoggedIn): ?>
                 <!-- mettre en favoris -->
                 <div class="actions-group">
