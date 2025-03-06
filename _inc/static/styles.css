@@ -485,4 +485,138 @@ div.restaurant {
     .info-section, .description-section {
         padding: 1.5rem;
     }
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.favorite-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 40rem;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-btn:hover {
+    background-color: #f2f2f2;
+}
+
+.favorite-btn.is-favorite {
+    background-color: #ffebee;
+}
+
+.favorite-btn.is-favorite i {
+    color: #e91e63;
+}
+
+.favorite-btn i {
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.favorite-btn:hover i {
+    transform: scale(1.1);
+}
+
+.favorite-form {
+    margin: 0;
+    padding: 0;
+}
+
+.favorite-form button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 40rem;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-form button:hover {
+    background-color: #f2f2f2;
+}
+
+.favorite-form button.is-favorite {
+    background-color: #ffebee;
+}
+
+.favorite-form button.is-favorite i {
+    color: #e91e63;
+}
+
+.favorite-form button i {
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.favorite-form button:hover i {
+    transform: scale(1.1);
+}
+
+.no-favorites {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+main h1 {
+    text-align: center;
+    color: #031D44;
+    margin: 2rem 0;
+    font-size: 2rem;
+}
+
+.restaurant-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.favorite-form {
+    margin: 0;
+}
+
+.btn-favorite {
+    background-color: #031D44;
+    color: white;
+    padding: 0.5rem 1.3rem;
+    border: none;
+    border-radius: 40rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.btn-favorite:hover {
+    background-color: #023169;
+}
+
+.btn-favorite.is-favorite {
+    background-color: #d9534f;
+}
+
+.btn-favorite.is-favorite:hover {
+    background-color: #c9302c;
 } 
