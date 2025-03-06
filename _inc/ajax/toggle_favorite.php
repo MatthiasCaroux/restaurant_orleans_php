@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once '../bd/restaurant_queries.php';
+require_once "../_inc/bd/page_restaurant_bd.php";
+
 
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['user_id'])) {

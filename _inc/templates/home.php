@@ -4,13 +4,14 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once __DIR__ . "/../bd/restaurant_queries.php";
+require_once __DIR__ . "/../bd/page_restaurant_bd.php";
 
 // Récupération des restaurants
 $restaurants = getAllRestaurants();
 
 // Chemin vers vos fichiers statiques (CSS, images, etc.)
-$cssPath = "_inc/static/";
+$cssPath = "./_inc/static/styles/";
+$imagesPath = "./_inc/static/images/";
 $isLoggedIn = isset($_SESSION['user_id']);
 
 // Charger le fichier JSON des images
@@ -34,16 +35,16 @@ sort($tout_type); // Trie alphabétiquement
 <head>
     <meta charset="UTF-8">
     <title>Liste des Restaurants</title>
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/base.css">
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/header.css">
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/home.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>base.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>header.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>home.css">
 </head>
 <body>
     <main class="home">
         <div class="search-container">
             <input type="text" placeholder="Rechercher un restaurant, un hôtel..." />
             <button>
-                <img src="<?php echo $cssPath; ?>loupe.png" alt="Logo">
+                <img src="<?php echo $imagesPath; ?>loupe.png" alt="Logo">
             </button>
         </div>
         <p id="recherche" class="search-info">
@@ -60,12 +61,12 @@ sort($tout_type); // Trie alphabétiquement
             <div class="restaurant-container">
                 <?php if(!empty($restaurants)): ?>
                     <?php foreach($restaurants as $restaurant): ?>
-                        <a href="pageResto.php?id=<?php echo $restaurant['id_restaurant']; ?>" class="restaurant-link">
+                        <a href="./vues/pageResto.php?id=<?php echo $restaurant['id_restaurant']; ?>" class="restaurant-link">
                             <div class="restaurant">
                                 <div class="restaurant-info">
                                     <?php
                                         $restaurant_name = $restaurant['nom_restaurant'];
-                                        $default_image = $cssPath . 'bk.jpeg';
+                                        $default_image = $imagesPath . 'bk.jpeg';
                                         $image_url = isset($image_map[$restaurant_name]) ? $image_map[$restaurant_name] : $default_image;
                                     ?>
                                     <img src="<?php echo htmlspecialchars($image_url); ?>" alt="Photo de <?php echo htmlspecialchars($restaurant_name); ?>">

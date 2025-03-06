@@ -23,7 +23,7 @@ try {
     die("Erreur lors de la récupération du restaurant : " . $e->getMessage());
 }
 
-$cssPath = "./_inc/static/";
+$cssPath = "./_inc/static/styles";
 ?>
 
 <!DOCTYPE html>

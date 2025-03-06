@@ -1,63 +1,141 @@
-header {
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+/* =================== */
+/* Navbar Responsive   */
+/* =================== */
+
+@media (max-width: 1200px) {
+    nav {
+        flex-direction: column;
+        padding: 1rem 2rem;  /* Réduction du padding horizontal */
+    }
+    
+    nav > ul {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    nav > ul > li {
+        margin: 0.5rem 0; /* Espacement vertical simplifié */
+    }
+    
+    nav button {
+        margin-top: 1rem;
+    }
+    
+    .user-info {
+        flex-direction: column;
+        margin-top: 1rem;
+    }
+  }
+  
+
+
+/* Navigation */
+nav > button > a {
+    text-decoration: none;
+    color: white;
 }
 
+/* Barre de navigation */
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    background-color: #fff;
+    padding: 1rem 10rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+
+
+
+/* Logo */
 #logo {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: #031D44;
+    text-decoration: none;
+}
+
+#logo img {
+    width: 2em;
+    margin-right: 0.5em;
+}
+
+/* Liste d'éléments dans la nav */
+nav > ul {
+    display: flex;
+    list-style-type: none;
+}
+
+nav > ul > li {
+    margin-right: 1rem;
+}
+
+nav > ul > li > a {
+    text-decoration: none;
+    color: #000;
+    border-radius: 40rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.4s ease;
+}
+
+nav > ul > li > a:hover {
+    background-color: #f2f2f2;
+}
+
+/* Boutons de connexion et déconnexion */
+nav button {
+    background-color: #031D44;
+    color: #fff;
+    padding: 0.5rem 1.3rem;
+    border: none;
+    border-radius: 40rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+nav button:hover {
+    background-color: #023169;
+}
+
+/* Style spécifique pour le bouton de déconnexion */
+.logout-btn {
+    background-color: #d9534f;
+}
+
+.logout-btn:hover {
+    background-color: #c9302c;
+}
+
+/* Style pour l'info utilisateur */
+.user-info {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
-#logo img {
-    height: 40px;
-}
-
-#logo h1 {
-    font-size: 1.5rem;
+.username {
+    font-weight: 500;
     color: #031D44;
 }
 
-nav ul {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-    margin: 0;
-    padding: 0;
-}
-
-nav ul a {
-    color: #333;
-    transition: color 0.3s ease;
-}
-
-nav ul a:hover {
-    color: #031D44;
-}
-
-.login-btn, .logout-btn {
-    padding: 0.5rem 1.3rem;
+/* Boutons de connexion et inscription dans les pages login et register */
+main form button, 
+main a button {
+    background-color: #031D44;
+    color: #fff;
+    padding: 0.8rem 2rem;
     border: none;
     border-radius: 40rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 250px;
 }
-
-.login-btn {
-    background-color: #031D44;
-    color: white;
-}
-
-.logout-btn {
-    background-color: #f44336;
-    color: white;
-} 
