@@ -1,23 +1,38 @@
 <?php
-
+session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once __DIR__ . "/../bd/db.php";
+require_once __DIR__ . "/_inc/bd/restaurant_queries.php";
 
-// Récupération des restaurants depuis la table "Restaurant"
-try {
-    $pdo = getPDO();
-    // Requête SQL pour récupérer tous les restaurants
-    $sql = 'SELECT * FROM "Restaurant"';
-    $stmt = $pdo->query($sql);
-    $restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Erreur lors de la récupération des restaurants : " . $e->getMessage());
+
+// Vérifier si l'utilisateur est connecté
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
 }
 
-// Chemin vers vos fichiers statiques (CSS, images, etc.)
+$user_id = $_SESSION['user_id'];
+
+// Récupérer les restaurants favoris depuis `restaurant_queries.php`
+$favoris = getFavoritesForUser($user_id);
+
+// Charger le fichier JSON des images pour afficher les bonnes images des restaurants
+$imagesJson = file_get_contents('_inc/data/restaurant_images.json');
+$imagesData = json_decode($imagesJson, true);
+
+// Fonction pour récupérer l'image d'un restaurant
+function getRestaurantImage($restaurantName, $imagesData) {
+    foreach ($imagesData as $image) {
+        if ($image['name'] === $restaurantName) {
+            return $image['image_url'];
+        }
+    }
+    return '_inc/static/default-restaurant.jpg'; // Image par défaut si aucune image trouvée
+}
+
+// Chemin vers vos fichiers statiques
 $cssPath = "_inc/static/";
 ?>
 
@@ -25,61 +40,44 @@ $cssPath = "_inc/static/";
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Liste des Restaurants</title>
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>style.css">
+    <title>Mes Restaurants Favoris</title>
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/base.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/header.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/favorites.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/buttons.css">
 </head>
 <body>
-    <main class="home">
-        <div class="search-container">
-            <input type="text" placeholder="Rechercher un restaurant, un hôtel..." />
-            <button>
-                <img src="<?php echo $cssPath; ?>loupe.png" alt="Logo">
-            </button>
-        </div>
-        <p class="search-info">
-            Trouvez des restaurants, hôtels et bien plus encore, près de chez vous ou n'importe où dans le monde.
-        </p>
-        <section>
-            <div class="restaurant-container">
-                <?php if(!empty($restaurants)): ?>
-                    <?php foreach($restaurants as $restaurant): ?>
+    <?php include_once '_inc/templates/header.php'; ?>
+    
+    <main>
+        <h1>Mes Restaurants Favoris</h1>
+        
+        <div class="restaurant-container">
+            <?php if (!empty($favoris)): ?>
+                <?php foreach ($favoris as $fav): ?>
+                    <a href="pageResto.php?id=<?php echo $fav['id_restaurant']; ?>" class="restaurant-link">
                         <div class="restaurant">
                             <div class="restaurant-info">
-                                <!-- Photo du restaurant -->
-                                <img src="<?php echo $cssPath; ?>bk.jpeg" alt="Logo de bk en mode">
+                                <!-- Récupérer et afficher l'image associée au restaurant -->
+                                <img src="<?php echo getRestaurantImage($fav['nom_restaurant'], $imagesData); ?>" alt="Photo du restaurant">
                                 <div>
-                                    <!-- Nom du restaurant -->
-                                    <h2><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h2>
-                                    
-                                    <!-- Adresse (commune et département) -->
+                                    <h2><?php echo htmlspecialchars($fav['nom_restaurant']); ?></h2>
                                     <p>
-                                        <?php 
-                                            echo htmlspecialchars($restaurant['commune']) . ' - ' . htmlspecialchars($restaurant['departement']);
-                                        ?>
+                                        <?php echo htmlspecialchars($fav['commune']) . ' - ' . htmlspecialchars($fav['departement']); ?>
                                     </p>
                                     
-                                    <!-- Site web si disponible -->
-                                    <?php if(!empty($restaurant['site_restaurant'])): ?>
-                                        <p>
-                                            <a href="<?php echo htmlspecialchars($restaurant['site_restaurant']); ?>" target="_blank">
-                                                Visiter le site
-                                            </a>
-                                        </p>
-                                    <?php endif; ?>
-                                    
-                                    <!-- Téléphone -->
-                                    <?php if(!empty($restaurant['telephone_restaurant'])): ?>
-                                        <p><?php echo htmlspecialchars($restaurant['telephone_restaurant']); ?></p>
+                                    <?php if (!empty($fav['telephone_restaurant'])): ?>
+                                        <p><?php echo htmlspecialchars($fav['telephone_restaurant']); ?></p>
                                     <?php endif; ?>
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>Aucun restaurant trouvé.</p>
-                <?php endif; ?>
-            </div>
-        </section>
+                    </a>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p class="no-favorites">Vous n'avez pas encore de restaurants favoris.</p>
+            <?php endif; ?>
+        </div>
     </main>
 </body>
 </html>

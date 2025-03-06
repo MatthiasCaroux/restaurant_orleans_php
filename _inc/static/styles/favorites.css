@@ -1,0 +1,25 @@
+.favorites-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.favorites-title {
+    text-align: center;
+    color: #031D44;
+    margin: 2rem 0;
+}
+
+.no-favorites {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+.favorite-restaurant {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+} 

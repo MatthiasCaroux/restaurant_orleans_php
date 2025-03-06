@@ -25,6 +25,5 @@ if (!function_exists('getPDO')) {
     }
 }
 
-// Supprimons cet appel direct qui peut causer des problèmes
-// getPDO();
+
 ?>

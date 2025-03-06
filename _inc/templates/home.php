@@ -4,23 +4,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once __DIR__ . "/../bd/db.php";
+require_once __DIR__ . "/../bd/restaurant_queries.php";
 
-// Récupération des restaurants depuis la table "Restaurant"
-try {
-    $pdo = getPDO();
-    // Requête SQL pour récupérer tous les restaurants
-    $sql = 'SELECT * FROM "Restaurant"';
-    $stmt = $pdo->query($sql);
-    $restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // récupérer les différents types de restaurant en bd pour les afficher après
-    $sql = 'SELECT DISTINCT "type_restaurant" from "Restaurant"';
-    $stmt = $pdo->query($sql);
-    $tout_type = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Erreur lors de la récupération des restaurants : " . $e->getMessage());
-}
+// Récupération des restaurants
+$restaurants = getAllRestaurants();
 
 // Chemin vers vos fichiers statiques (CSS, images, etc.)
 $cssPath = "_inc/static/";
@@ -44,8 +31,10 @@ foreach ($restaurant_images as $item) {
 <head>
     <meta charset="UTF-8">
     <title>Liste des Restaurants</title>
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>style_page_resto.css">
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/base.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/header.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/home.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/buttons.css">
 </head>
 <body>
     <main class="home">
@@ -97,12 +86,6 @@ foreach ($restaurant_images as $item) {
                                         <?php  echo $restaurant['type_restaurant'];?>
                                     </div>
                                 </div>
-                                <!-- Bouton coeur placé à droite -->
-                                <?php if ($isLoggedIn): ?>
-                                    <button class="heart-btn">
-                                        <img src="<?php echo $cssPath; ?>coeur.svg" alt="Ajouter aux favoris">
-                                    </button>
-                                <?php endif; ?>
                             </div>
                         </a>
                     <?php endforeach; ?>

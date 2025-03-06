@@ -17,8 +17,10 @@ if (isset($_SESSION['user_id'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./_inc/static/styles.css">
-  <link rel="stylesheet" href="./_inc/static/style_login.css">
+  <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/base.css">
+  <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/header.css">
+  <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/login.css">
+  <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/buttons.css">
   <title>IUTables'O - Connexion</title>
 </head>
 <body>

@@ -10,6 +10,11 @@ if (session_status() == PHP_SESSION_NONE) {
 $isLoggedIn = isset($_SESSION['user_id']);
 ?>
 
+<head>
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/base.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/header.css">
+</head>
+
 <header>
     <nav>
         <div id="logo">

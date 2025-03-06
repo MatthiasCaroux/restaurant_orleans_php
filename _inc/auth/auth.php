@@ -1,4 +1,7 @@
 <?php
+
+// Ce fichier gère la connexion et l'inscription de l'utilisateur
+
 require_once '_inc/bd/db.php';
 
 function authenticateUser($email, $password) {
