@@ -24,8 +24,11 @@ foreach ($restaurant_images as $item) {
         $image_map[$item['name']] = $item['image_url'];
     }
 }
-?>
 
+// Récupérer tous les types de restaurant de façon unique et les trier
+$tout_type = array_unique(array_column($restaurants, 'type_restaurant'));
+sort($tout_type); // Trie alphabétiquement
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -34,7 +37,6 @@ foreach ($restaurant_images as $item) {
     <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/base.css">
     <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/header.css">
     <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/home.css">
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/buttons.css">
 </head>
 <body>
     <main class="home">
@@ -48,8 +50,10 @@ foreach ($restaurant_images as $item) {
             Trouvez des restaurants, hôtels et bien plus encore, près de chez vous ou n'importe où dans le monde.
         </p>
         <select id="recherche_by_type" class="search-info">
+            <!-- Option "Tous" pour afficher tous les types -->
+            <option value="tout">Tous</option>
             <?php foreach($tout_type as $type): ?>
-            <option><?php echo htmlspecialchars($type['type_restaurant']); ?></option>
+                <option><?php echo htmlspecialchars($type); ?></option>
             <?php endforeach; ?>
         </select>
         <section>
@@ -59,31 +63,25 @@ foreach ($restaurant_images as $item) {
                         <a href="pageResto.php?id=<?php echo $restaurant['id_restaurant']; ?>" class="restaurant-link">
                             <div class="restaurant">
                                 <div class="restaurant-info">
-                                    <!-- Photo du restaurant -->
                                     <?php
                                         $restaurant_name = $restaurant['nom_restaurant'];
-                                        $restaurant_type = $restaurant['type_restaurant'];
                                         $default_image = $cssPath . 'bk.jpeg';
                                         $image_url = isset($image_map[$restaurant_name]) ? $image_map[$restaurant_name] : $default_image;
                                     ?>
                                     <img src="<?php echo htmlspecialchars($image_url); ?>" alt="Photo de <?php echo htmlspecialchars($restaurant_name); ?>">
                                     <div>
-                                        <!-- Nom du restaurant -->
                                         <h2><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h2>
-                                        
-                                        <!-- Adresse (commune et département) -->
                                         <p>
                                             <?php 
                                                 echo htmlspecialchars($restaurant['commune']) . ' - ' . htmlspecialchars($restaurant['departement']);
                                             ?>
                                         </p>                                    
-                                        <!-- Téléphone -->
                                         <?php if(!empty($restaurant['telephone_restaurant'])): ?>
                                             <p><?php echo htmlspecialchars($restaurant['telephone_restaurant']); ?></p>
                                         <?php endif; ?>
                                     </div>
                                     <div class="cacher">
-                                        <?php  echo $restaurant['type_restaurant'];?>
+                                        <?php echo htmlspecialchars($restaurant['type_restaurant']); ?>
                                     </div>
                                 </div>
                             </div>

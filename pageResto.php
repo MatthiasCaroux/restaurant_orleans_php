@@ -42,6 +42,21 @@ if ($isLoggedIn && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['favori
     exit;
 }
 
+// Traitement du formulaire de j'aime
+if ($isLoggedIn && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['like_action'], $_POST['id_restaurant'])) {
+    $restaurant_id = intval($_POST['id_restaurant']);
+    $success = addRestaurantToLiked($user_id, $restaurant_id);
+
+    // Pour éviter que l'état ne reste inchangé dans l'affichage, on redirige après traitement
+    if (!$success) {
+        error_log("Erreur lors de l'ajout du j'aime pour user_id={$user_id}, restaurant_id={$restaurant_id}");
+    }
+    header("Location: pageResto.php?id=" . $restaurant_id);
+    exit;
+}
+
+
+
 // Récupération des détails du restaurant
 $restaurant = getRestaurantById($id_restaurant);
 if (!$restaurant) {
@@ -59,6 +74,9 @@ foreach ($imagesData as $image) {
 
 // Vérifier si le restaurant est en favoris
 $isFavorite = $isLoggedIn ? isRestaurantFavorite($user_id, $id_restaurant) : false;
+
+// Vérifier si l'utilisateur a aimé le restaurant
+$isLiked = $isLoggedIn ? isRestaurantLiked($user_id, $id_restaurant) : false;
 
 // Chemin vers vos fichiers statiques
 $cssPath = "_inc/static/";
@@ -81,6 +99,7 @@ $cssPath = "_inc/static/";
         <div class="header-actions">
             <a href="index.php" class="retour-btn">Retour à la liste</a>
             <?php if ($isLoggedIn): ?>
+                <!-- mettre en favoris -->
                 <form method="POST" class="favorite-form">
                     <input type="hidden" name="favorite_action" value="<?php echo $isFavorite ? 'remove' : 'add'; ?>">
                     <input type="hidden" name="id_restaurant" value="<?php echo $id_restaurant; ?>">
@@ -88,7 +107,27 @@ $cssPath = "_inc/static/";
                         <?php echo $isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'; ?>
                     </button>
                 </form>
+                <!-- mettre une note -->
+                <form method="POST" class="note-form">
+                    <input type="number" name="note_restaurant" id="note_restaurant" min="0" max="5" step="0.1">
+                    <button type="submit">Noter</button>
+                </form>
+                <!-- mettre un avis -->
+                <form method="POST" class="avis-form">
+                    <input type="text" name="avis" id="avis">
+                    <button type="submit">Mettre un avis</button>
+                    <input type="hidden" name="id_restaurant" value="<?php echo $id_restaurant; ?>">
+                </form>
+                <!-- mettre un j'aime -->
+                <form method="POST" class="like-form">
+                    <input type="hidden" name="like_action" value="like">
+                    <input type="hidden" name="id_restaurant" value="<?php echo $id_restaurant; ?>">
+                    <button type="submit">
+                        <?php echo $isLiked ? 'J\'aime plus 👎' : 'J\'aime 👍'; ?>
+                    </button>
+                </form>
             <?php endif; ?>
+            
         </div>
         
         <div class="restaurant-header">
