@@ -97,37 +97,30 @@ $cssPath = "_inc/static/";
     <?php include_once '_inc/templates/header.php'; ?>
     <main class="restaurant-details">
         <div class="header-actions">
-            <a href="index.php" class="retour-btn">Retour à la liste</a>
+            <a href="index.php" class="retour-btn"><i class="fas fa-arrow-left"></i> Retour à la liste</a>
             <?php if ($isLoggedIn): ?>
                 <!-- mettre en favoris -->
-                <form method="POST" class="favorite-form">
-                    <input type="hidden" name="favorite_action" value="<?php echo $isFavorite ? 'remove' : 'add'; ?>">
-                    <input type="hidden" name="id_restaurant" value="<?php echo $id_restaurant; ?>">
-                    <button type="submit" class="btn-favorite <?php echo $isFavorite ? 'is-favorite' : ''; ?>">
-                        <?php echo $isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'; ?>
-                    </button>
-                </form>
-                <!-- mettre une note -->
-                <form method="POST" class="note-form">
-                    <input type="number" name="note_restaurant" id="note_restaurant" min="0" max="5" step="0.1">
-                    <button type="submit">Noter</button>
-                </form>
-                <!-- mettre un avis -->
-                <form method="POST" class="avis-form">
-                    <input type="text" name="avis" id="avis">
-                    <button type="submit">Mettre un avis</button>
-                    <input type="hidden" name="id_restaurant" value="<?php echo $id_restaurant; ?>">
-                </form>
-                <!-- mettre un j'aime -->
-                <form method="POST" class="like-form">
-                    <input type="hidden" name="like_action" value="like">
-                    <input type="hidden" name="id_restaurant" value="<?php echo $id_restaurant; ?>">
-                    <button type="submit">
-                        <?php echo $isLiked ? 'J\'aime plus 👎' : 'J\'aime 👍'; ?>
-                    </button>
-                </form>
+                <div class="actions-group">
+                    <form method="POST" class="favorite-form">
+                        <input type="hidden" name="favorite_action" value="<?php echo $isFavorite ? 'remove' : 'add'; ?>">
+                        <input type="hidden" name="id_restaurant" value="<?php echo $id_restaurant; ?>">
+                        <button type="submit" class="btn-favorite <?php echo $isFavorite ? 'is-favorite' : ''; ?>">
+                            <i class="fas <?php echo $isFavorite ? 'fa-heart' : 'fa-heart'; ?>"></i>
+                            <?php echo $isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'; ?>
+                        </button>
+                    </form>
+                    
+                    <!-- mettre un j'aime -->
+                    <form method="POST" class="like-form">
+                        <input type="hidden" name="like_action" value="like">
+                        <input type="hidden" name="id_restaurant" value="<?php echo $id_restaurant; ?>">
+                        <button type="submit" class="btn-like <?php echo $isLiked ? 'is-liked' : ''; ?>">
+                            <i class="fas <?php echo $isLiked ? 'fa-thumbs-down' : 'fa-thumbs-up'; ?>"></i>
+                            <?php echo $isLiked ? 'Je n\'aime plus' : 'J\'aime'; ?>
+                        </button>
+                    </form>
+                </div>
             <?php endif; ?>
-            
         </div>
         
         <div class="restaurant-header">
@@ -135,45 +128,198 @@ $cssPath = "_inc/static/";
             <h1><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h1>
         </div>
 
-        <div class="restaurant-info-details">
-            <div class="info-section">
-                <h2>Informations</h2>
-                <p>
-                    <strong>Adresse :</strong> 
-                    <?php echo htmlspecialchars($restaurant['commune']) . ' - ' . htmlspecialchars($restaurant['departement']); ?>
-                </p>
-                
-                <?php if (!empty($restaurant['telephone_restaurant'])): ?>
-                    <p>
-                        <strong>Téléphone :</strong> 
-                        <?php echo htmlspecialchars($restaurant['telephone_restaurant']); ?>
-                    </p>
-                <?php endif; ?>
-
-                <?php if (!empty($restaurant['email_restaurant'])): ?>
-                    <p>
-                        <strong>Email :</strong> 
-                        <?php echo htmlspecialchars($restaurant['email_restaurant']); ?>
-                    </p>
-                <?php endif; ?>
-
-                <?php if (!empty($restaurant['site_restaurant'])): ?>
-                    <p>
-                        <strong>Site web :</strong> 
-                        <a href="<?php echo htmlspecialchars($restaurant['site_restaurant']); ?>" target="_blank" rel="noopener noreferrer">
-                            Visiter le site web
-                        </a>
-                    </p>
-                <?php endif; ?>
+        <div class="restaurant-info-card">
+            <div class="card-header">
+                <h2>Plan</h2>
             </div>
+            <div class="card-content map-container">
+                <!-- Placeholder for map - you'll need to integrate your actual map here -->
+                <div class="map-placeholder">
+                    <img src="<?php echo $cssPath; ?>images/map-placeholder.jpg" alt="Plan du restaurant" class="map-image">
+                </div>
+                <div class="restaurant-address">
+                    <p><i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($restaurant['adresse_restaurant'] ?? ''); ?>, 
+                       <?php echo htmlspecialchars($restaurant['commune']) . ' - ' . htmlspecialchars($restaurant['departement']); ?></p>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-row">
+                        <?php if (!empty($restaurant['site_restaurant'])): ?>
+                            <div class="contact-item">
+                                <i class="fas fa-globe"></i>
+                                <a href="<?php echo htmlspecialchars($restaurant['site_restaurant']); ?>" target="_blank" rel="noopener noreferrer">
+                                    Site internet
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <?php if (!empty($restaurant['email_restaurant'])): ?>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:<?php echo htmlspecialchars($restaurant['email_restaurant']); ?>">
+                                    E-mail
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div class="contact-row">
+                        <?php if (!empty($restaurant['telephone_restaurant'])): ?>
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <a href="tel:<?php echo htmlspecialchars($restaurant['telephone_restaurant']); ?>">
+                                    <?php echo htmlspecialchars($restaurant['telephone_restaurant']); ?>
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <div class="restaurant-categories">
+                            <ul>
+                                <li>Type cuisine</li>
+                                <li>Département</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <?php if (!empty($restaurant['description_restaurant'])): ?>
-                <div class="description-section">
+        <?php if (!empty($restaurant['description_restaurant'])): ?>
+            <div class="restaurant-info-card">
+                <div class="card-header">
                     <h2>Description</h2>
+                </div>
+                <div class="card-content">
                     <p><?php echo nl2br(htmlspecialchars($restaurant['description_restaurant'])); ?></p>
                 </div>
-            <?php endif; ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- Section Avis -->
+        <div class="restaurant-info-card">
+            <div class="card-header">
+                <h2>Avis</h2>
+                <div class="rating-summary">
+                    <div class="average-rating">
+                        <span class="rating-number"><?php echo number_format($restaurant['note_moyenne'] ?? 0, 1); ?></span>
+                        <div class="rating-stars">
+                            <?php 
+                            $avgRating = $restaurant['note_moyenne'] ?? 0;
+                            for($i = 1; $i <= 5; $i++) {
+                                if($i <= $avgRating) {
+                                    echo '<i class="fas fa-star filled"></i>';
+                                } elseif($i - 0.5 <= $avgRating) {
+                                    echo '<i class="fas fa-star-half-alt filled"></i>';
+                                } else {
+                                    echo '<i class="far fa-star"></i>';
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <span class="review-count"><?php echo number_format($totalAvis ?? 0); ?> avis</span>
+                </div>
+            </div>
+            
+            <div class="card-content">
+                <?php if (isset($avis) && is_array($avis) && count($avis) > 0): ?>
+                    <div class="avis-container">
+                        <?php foreach($avis as $unAvis): ?>
+                            <div class="avis-item">
+                                <div class="avis-header">
+                                    <div class="user-info">
+                                        <h3><?php echo htmlspecialchars($unAvis['username'] ?? 'Utilisateur'); ?></h3>
+                                        <div class="user-rating">
+                                            <?php 
+                                            $rating = $unAvis['note'] ?? 0;
+                                            for($i = 1; $i <= 5; $i++) {
+                                                if($i <= $rating) {
+                                                    echo '<i class="fas fa-star filled"></i>';
+                                                } else {
+                                                    echo '<i class="far fa-star"></i>';
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <span class="avis-date"><?php echo htmlspecialchars($unAvis['date_avis'] ?? ''); ?></span>
+                                </div>
+                                <div class="avis-content">
+                                    <p><?php echo htmlspecialchars($unAvis['commentaire'] ?? ''); ?></p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <p class="no-avis">Aucun avis pour le moment.</p>
+                <?php endif; ?>
+                
+                <?php if ($isLoggedIn): ?>
+                    <div class="add-avis-section">
+                        <button class="btn-add-avis" id="toggleAvisForm">Ajouter un avis</button>
+                        
+                        <div class="avis-form-container" id="avisFormContainer" style="display: none;">
+                            <form method="POST" class="avis-form">
+                                <div class="form-group">
+                                    <label for="note_restaurant">Votre note:</label>
+                                    <div class="rating-input">
+                                        <?php for($i = 1; $i <= 5; $i++): ?>
+                                            <input type="radio" id="star<?php echo $i; ?>" name="note_restaurant" value="<?php echo $i; ?>" />
+                                            <label for="star<?php echo $i; ?>"><i class="far fa-star"></i></label>
+                                        <?php endfor; ?>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="avis">Votre commentaire:</label>
+                                    <textarea name="avis" id="avis" rows="5" placeholder="Partagez votre expérience..."></textarea>
+                                </div>
+                                
+                                <input type="hidden" name="id_restaurant" value="<?php echo $id_restaurant; ?>">
+                                <button type="submit" class="btn-submit-avis">Publier votre avis</button>
+                            </form>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.getElementById('toggleAvisForm');
+            const formContainer = document.getElementById('avisFormContainer');
+            
+            if (toggleButton && formContainer) {
+                toggleButton.addEventListener('click', function() {
+                    if (formContainer.style.display === 'none') {
+                        formContainer.style.display = 'block';
+                        toggleButton.textContent = 'Annuler';
+                    } else {
+                        formContainer.style.display = 'none';
+                        toggleButton.textContent = 'Ajouter un avis';
+                    }
+                });
+            }
+            
+            // Script pour les étoiles interactives dans le formulaire d'avis
+            const ratingInputs = document.querySelectorAll('.rating-input input');
+            const ratingLabels = document.querySelectorAll('.rating-input label i');
+            
+            ratingInputs.forEach((input, index) => {
+                input.addEventListener('change', function() {
+                    ratingLabels.forEach((label, labelIndex) => {
+                        if (labelIndex <= index) {
+                            label.classList.remove('far');
+                            label.classList.add('fas', 'filled');
+                        } else {
+                            label.classList.remove('fas', 'filled');
+                            label.classList.add('far');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
