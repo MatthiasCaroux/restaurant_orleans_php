@@ -4,10 +4,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once "_inc/bd/restaurant_queries.php";
+require_once "../_inc/bd/page_restaurant_bd.php";
 
 // Charger le fichier JSON des images
-$imagesJson = file_get_contents('_inc/data/restaurant_images.json');
+$imagesJson = file_get_contents('../_inc/data/restaurant_images.json');
 $imagesData = json_decode($imagesJson, true);
 
 // Vérifier si l'utilisateur est connecté
@@ -79,7 +79,8 @@ $isFavorite = $isLoggedIn ? isRestaurantFavorite($user_id, $id_restaurant) : fal
 $isLiked = $isLoggedIn ? isRestaurantLiked($user_id, $id_restaurant) : false;
 
 // Chemin vers vos fichiers statiques
-$cssPath = "_inc/static/";
+$cssPath = "../_inc/static/";
+$imagesPath = "../_inc/static/images/";
 ?>
 
 <!DOCTYPE html>
@@ -94,7 +95,7 @@ $cssPath = "_inc/static/";
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <?php include_once '_inc/templates/header.php'; ?>
+    <?php include_once '../_inc/templates/header.php'; ?>
     <main class="restaurant-details">
         <div class="header-actions">
             <a href="index.php" class="retour-btn"><i class="fas fa-arrow-left"></i> Retour à la liste</a>
@@ -124,7 +125,7 @@ $cssPath = "_inc/static/";
         </div>
         
         <div class="restaurant-header">
-            <img src="<?php echo $restaurantImage ?: $cssPath . 'default-restaurant.jpg'; ?>" alt="Photo du restaurant" class="restaurant-image">
+            <img src="<?php echo $restaurantImage ?: $imagesPath . 'bk.jpeg'; ?>" alt="Photo du restaurant" class="restaurant-image">
             <h1><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h1>
         </div>
 
@@ -135,7 +136,7 @@ $cssPath = "_inc/static/";
             <div class="card-content map-container">
                 <!-- Placeholder for map - you'll need to integrate your actual map here -->
                 <div class="map-placeholder">
-                    <img src="<?php echo $cssPath; ?>images/map-placeholder.jpg" alt="Plan du restaurant" class="map-image">
+                    <img src="<?php echo $imagesPath; ?>map-placeholder.jpg" alt="Plan du restaurant" class="map-image">
                 </div>
                 <div class="restaurant-address">
                     <p><i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($restaurant['adresse_restaurant'] ?? ''); ?>, 
@@ -175,7 +176,31 @@ $cssPath = "_inc/static/";
                         
                         <div class="restaurant-categories">
                             <ul>
-                                <li>Type cuisine</li>
+                                <li>
+                                    <?php
+                                        // si le restaurant n'a pas de type de restaurant, on affiche "Type de restaurant non renseigné"
+                                        if ($restaurant['type_restaurant']) {
+                                            if ($restaurant['type_restaurant']  == 'fast_food') {
+                                                echo "Fast food";
+                                            }
+                                            else if ($restaurant['type_restaurant']  == 'bar') {
+                                                echo "Bar";
+                                            }
+                                            else if ($restaurant['type_restaurant']  == 'ice_cream') {
+                                                echo "Ice cream";
+                                            }
+                                            else if ($restaurant['type_restaurant']  == 'pub') {
+                                                echo "Pub";
+                                            }
+                                            else if ($restaurant['type_restaurant']  == 'restaurant') {
+                                                echo "Restaurant";
+                                            }
+                                        }
+                                        else {
+                                            echo "Type de restaurant non renseigné";
+                                        }
+                                    ?>
+                                </li>
                                 <li>Département</li>
                             </ul>
                         </div>

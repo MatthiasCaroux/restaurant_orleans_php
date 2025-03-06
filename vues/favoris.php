@@ -4,36 +4,29 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once __DIR__ . "/_inc/bd/restaurant_queries.php";
+require_once "../_inc/bd/page_restaurant_bd.php";
+
+require_once "../_inc/bd/favoris_bd.php";
 
 
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: ../vues/login.php');
     exit;
 }
 
 $user_id = $_SESSION['user_id'];
 
-// Récupérer les restaurants favoris depuis `restaurant_queries.php`
+// Récupérer les restaurants favoris depuis `restaurant_bd.php`
 $favoris = getFavoritesForUser($user_id);
 
 // Charger le fichier JSON des images pour afficher les bonnes images des restaurants
-$imagesJson = file_get_contents('_inc/data/restaurant_images.json');
+$imagesJson = file_get_contents('../_inc/data/restaurant_images.json');
 $imagesData = json_decode($imagesJson, true);
 
-// Fonction pour récupérer l'image d'un restaurant
-function getRestaurantImage($restaurantName, $imagesData) {
-    foreach ($imagesData as $image) {
-        if ($image['name'] === $restaurantName) {
-            return $image['image_url'];
-        }
-    }
-    return '_inc/static/default-restaurant.jpg'; // Image par défaut si aucune image trouvée
-}
-
 // Chemin vers vos fichiers statiques
-$cssPath = "_inc/static/";
+$cssPath = "../_inc/static/styles/";
+$imagesPath = "../_inc/static/images/";
 ?>
 
 <!DOCTYPE html>
@@ -41,13 +34,13 @@ $cssPath = "_inc/static/";
 <head>
     <meta charset="UTF-8">
     <title>Mes Restaurants Favoris</title>
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/base.css">
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/header.css">
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/favorites.css">
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/buttons.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>base.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>header.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>favorites.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>buttons.css">
 </head>
 <body>
-    <?php include_once '_inc/templates/header.php'; ?>
+    <?php include_once '../_inc/templates/header.php'; ?>
     
     <main>
         <h1>Mes Restaurants Favoris</h1>
