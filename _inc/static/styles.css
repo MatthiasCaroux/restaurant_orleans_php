@@ -620,3 +620,9 @@ main h1 {
 .btn-favorite.is-favorite:hover {
     background-color: #c9302c;
 } 
+
+} 
+.cacher{
+    display: none;
+}
+
