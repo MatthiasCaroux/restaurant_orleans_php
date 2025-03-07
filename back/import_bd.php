@@ -82,12 +82,13 @@ $sql = "INSERT INTO \"Restaurant\" (
     :operator, :brand, :website, :facebook
 )";
 $stmt = $pdo->prepare($sql);
-
+$listtype = [];
 // Boucle sur tous les restaurants du JSON
 foreach ($data as $record) {
     // Nettoyage de l'osm_id pour ne conserver que les chiffres
     $osm_id = preg_replace('/[^0-9]/', '', $record['osm_id']);
-
+    
+    
     $params = [
         ':type_restaurant'    => $record['type'],
         ':nom_restaurant'     => $record['name'],
@@ -127,6 +128,27 @@ foreach ($data as $record) {
     ];
 
     $stmt->execute($params);
+    if ($record['cuisine']!= null){
+        foreach ($record['cuisine'] as $typecuisine) {
+            if (!in_array($typecuisine, $listtype)) {
+                array_push($listtype, $typecuisine);
+                $querycuisine = "INSERT INTO \"Type_cuisine\" (nom_type_cuisine) VALUES :nom_type_cuisine";
+                $stmtcuisine = $pdo->prepare($querycuisine);
+                $stmtcuisine->execute([':nom_type_cuisine' => $typecuisine]);
+            }
+            $id_restaurant = $pdo->lastInsertId();
+            $queryTypeCuisine = "SELECT id_type_cuisine FROM \"Type_cuisine\" WHERE nom_type_cuisine = :nom_type_cuisine";
+            $stmtTypeCuisine = $pdo->prepare($queryTypeCuisine);
+            $stmtTypeCuisine->execute([':nom_type_cuisine' => $typecuisine]);
+            $id_type_cuisine = $stmtTypeCuisine->fetchColumn();
+
+            $queryAppartenir = "INSERT INTO \"Appartenir_cuisine\" (id_restaurant, id_type_cuisine) VALUES (:id_restaurant, :id_type_cuisine)";
+            $stmtAppartenir = $pdo->prepare($queryAppartenir);
+            $stmtAppartenir->execute([':id_restaurant' => $id_restaurant, ':id_type_cuisine' => $id_type_cuisine]);
+
+
+        }
+    }
 }
 
 
