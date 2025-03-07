@@ -54,9 +54,29 @@ sort($tout_type); // Trie alphabétiquement
             <!-- Option "Tous" pour afficher tous les types -->
             <option value="tout">Tous</option>
             <?php foreach($tout_type as $type): ?>
-                <option><?php echo htmlspecialchars($type); ?></option>
+                <option value="<?php echo htmlspecialchars(strtolower($type)); ?>"><?php echo htmlspecialchars($type); ?></option>
             <?php endforeach; ?>
         </select>
+        <div class="filters-container">
+            <div class="filter-toggle">
+                <label class="switch">
+                    <input type="checkbox" id="filter-vegetarian">
+                    <span class="slider round"></span>
+                </label>
+                <span class="filter-label">
+                    <i class="fas fa-leaf"></i> Végétarien
+                </span>
+            </div>
+            <div class="filter-toggle">
+                <label class="switch">
+                    <input type="checkbox" id="filter-wheelchair">
+                    <span class="slider round"></span>
+                </label>
+                <span class="filter-label">
+                    <i class="fas fa-wheelchair"></i> Accès PMR
+                </span>
+            </div>
+        </div>
         <section>
             <div class="restaurant-container">
                 <?php if(!empty($restaurants)): ?>
@@ -83,6 +103,14 @@ sort($tout_type); // Trie alphabétiquement
                                     </div>
                                     <div class="cacher">
                                         <?php echo htmlspecialchars($restaurant['type_restaurant']); ?>
+                                    </div>
+                                    <div class="restaurant-attributes">
+                                        <?php if($restaurant['vegetarian'] === 'yes'): ?>
+                                            <i class="fas fa-leaf" title="Options végétariennes disponibles"></i>
+                                        <?php endif; ?>
+                                        <?php if($restaurant['wheelchair'] === 'yes'): ?>
+                                            <i class="fas fa-wheelchair" title="Accessible aux PMR"></i>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
