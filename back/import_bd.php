@@ -1,7 +1,7 @@
 <!-- Ce fichier nous permet de recupérer les infos du JSON -->
 
 <?php
-require __DIR__ ."./_inc/bd/db.php";
+     require_once __DIR__ . '/../_inc/bd/db.php';
 $json = file_get_contents('./_inc/data/restaurants_orleans.json');
 $data = json_decode($json, true);
 
@@ -77,7 +77,7 @@ $test = [
     "code_departement" => $data[0]['code_departement'],
     "commune" => $data[0]['commune'],
     "code_commune" => $data[0]['code_commune'],
-    "wheelchairs" => $data[0]['wheelchair'],
+    "wheelchair" => $data[0]['wheelchair'],
     "vegetarian" => $data[0]['vegetarian']
 ];
 
@@ -89,11 +89,11 @@ try {
     $sql = 'INSERT INTO "Restaurant" (
                 type_restaurant, nom_restaurant, 
                 telephone_restaurant, site_restaurant, departement, 
-                code_departement, commune, code_commune, wheelchairs, vegetarian
+                code_departement, commune, code_commune, wheelchair, vegetarian
             ) VALUES (
                  :type_restaurant, :nom_restaurant, 
                 :telephone_restaurant, :site_restaurant, :departement, 
-                :code_departement, :commune, :code_commune, :wheelchairs, :vegetarian
+                :code_departement, :commune, :code_commune, :wheelchair, :vegetarian
             )';
 
     // Préparer la requête
@@ -109,7 +109,7 @@ try {
         ':code_departement'   => $test['code_departement'],
         ':commune'            => $test['commune'],
         ':code_commune'       => $test['code_commune'],
-        ':wheelchairs'        => $test['wheelchairs'],
+        ':wheelchair'        => $test['wheelchair'],
         ':vegetarian'         => $test['vegetarian']
     ]);
 
