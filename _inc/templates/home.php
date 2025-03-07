@@ -35,8 +35,6 @@ sort($tout_type); // Trie alphabétiquement
 <head>
     <meta charset="UTF-8">
     <title>Liste des Restaurants</title>
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>base.css">
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>header.css">
     <link rel="stylesheet" href="<?php echo $cssPath; ?>home.css">
 </head>
 <body>
@@ -86,10 +84,11 @@ sort($tout_type); // Trie alphabétiquement
                                 <div class="restaurant-info">
                                     <?php
                                         $restaurant_name = $restaurant['nom_restaurant'];
-                                        $default_image = $imagesPath . 'bk.jpeg';
-                                        $image_url = isset($image_map[$restaurant_name]) ? $image_map[$restaurant_name] : $default_image;
+                                        $default_image = $imagesPath . 'default-restaurant.jpg';
+                                        $image_path = $imagesPath . 'restaurants_images/' . $restaurant_name . '.jpg';
+                                        $image_url = file_exists($image_path) ? $image_path : $default_image;
                                     ?>
-                                    <img src="<?php echo htmlspecialchars($image_url); ?>" alt="Photo de <?php echo htmlspecialchars($restaurant_name); ?>">
+                                    <img src="<?php echo $image_url; ?>" alt="Photo de <?php echo htmlspecialchars($restaurant_name); ?>">
                                     <div>
                                         <h2><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h2>
                                         <p>

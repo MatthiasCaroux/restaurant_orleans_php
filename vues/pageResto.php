@@ -81,6 +81,16 @@ $isLiked = $isLoggedIn ? isRestaurantLiked($user_id, $id_restaurant) : false;
 // Chemin vers vos fichiers statiques
 $cssPath = "../_inc/static/";
 $imagesPath = "../_inc/static/images/";
+
+
+// Chemin vers les images
+$imagesPath = "../_inc/static/images/";
+$restaurant_name = $restaurant['nom_restaurant'];
+$default_image = $imagesPath . 'default-restaurant.jpg';
+$image_path = $imagesPath . 'restaurants_images/' . $restaurant_name . '.jpg';
+$image_url = file_exists($image_path) ? $image_path : $default_image;
+
+
 ?>
 
 <!DOCTYPE html>
@@ -88,9 +98,10 @@ $imagesPath = "../_inc/static/images/";
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></title>
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/base.css">
-    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/header.css">
     <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/restaurant.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/base.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/style_page_resto.css">
+    <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/header.css">
     <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/buttons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Leaflet qui permet de mettre un plan du restaurant -->
@@ -128,7 +139,13 @@ $imagesPath = "../_inc/static/images/";
         </div>
         
         <div class="restaurant-header">
-            <img src="<?php echo $restaurantImage ?: $imagesPath . 'bk.jpeg'; ?>" alt="Photo du restaurant" class="restaurant-image">
+            <?php
+                $restaurant_name = $restaurant['nom_restaurant'];
+                $default_image = $imagesPath . 'default-restaurant.jpg';
+                $image_path = $imagesPath . 'restaurants_images/' . $restaurant_name . '.jpg';
+                $image_url = file_exists($image_path) ? $image_path : $default_image;
+            ?>
+            <img src="<?php echo $image_url; ?>" alt="Photo de <?php echo htmlspecialchars($restaurant_name); ?>">
             <h1><?php echo htmlspecialchars($restaurant['nom_restaurant']); ?></h1>
         </div>
 
