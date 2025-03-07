@@ -160,4 +160,26 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+#recherche_by_type {
+    width: 100%;
+    max-width: 120px;
+    margin: 0 auto 20px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+#recherche_by_type:focus {
+    border-color: #4CAF50;
+    outline: none;
 } 
