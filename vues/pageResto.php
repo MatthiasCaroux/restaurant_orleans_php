@@ -93,6 +93,9 @@ $imagesPath = "../_inc/static/images/";
     <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/restaurant.css">
     <link rel="stylesheet" href="<?php echo $cssPath; ?>styles/buttons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Leaflet qui permet de mettre un plan du restaurant -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
     <?php include_once '../_inc/templates/header.php'; ?>
@@ -135,8 +138,28 @@ $imagesPath = "../_inc/static/images/";
             </div>
             <div class="card-content map-container">
                 <!-- Placeholder for map - you'll need to integrate your actual map here -->
-                <div class="map-placeholder">
-                    <img src="<?php echo $imagesPath; ?>map-placeholder.jpg" alt="Plan du restaurant" class="map-image">
+                <div class="map-placeholder" id="map">
+                    <script>
+                        // Coordonnées centrales de la carte (ici les coordonnées du restaurant)
+                        var map = L.map('map').setView([<?php echo $restaurant['latitude']; ?>, <?php echo $restaurant['longitude']; ?>], 13);
+
+                    // Ajouter une couche de tuiles OpenStreetMap
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap contributors'
+                    }).addTo(map);
+
+                    // Liste des restaurants (latitude, longitude, nom)
+                    var restaurants = [
+                        { lat: <?php echo $restaurant['latitude']; ?>, lon: <?php echo $restaurant['longitude']; ?>, name: "<?php echo $restaurant['nom_restaurant']; ?>" }
+                    ];
+
+                    // Ajouter les marqueurs
+                    restaurants.forEach(function(restaurant) {
+                        L.marker([restaurant.lat, restaurant.lon])
+                            .addTo(map)
+                            .bindPopup(`<b>${restaurant.name}</b>`);
+                    });
+                    </script>
                 </div>
                 <div class="restaurant-address">
                     <p><i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($restaurant['adresse_restaurant'] ?? ''); ?>, 
