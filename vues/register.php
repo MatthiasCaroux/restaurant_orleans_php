@@ -1,5 +1,5 @@
 <?php
-require_once 'Classes/Autoloader.php';
+require_once '../Classes/Autoloader.php';
 Autoloader::register();
 
 // Démarrer la session
@@ -10,6 +10,8 @@ if (isset($_SESSION['user_id'])) {
     header('Location: index.php');
     exit();
 }
+$cssPath = "../_inc/static/styles/";
+
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +21,7 @@ if (isset($_SESSION['user_id'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./_inc/static/styles.css">
   <!-- On peut créer un fichier CSS spécifique pour la page d'inscription -->
-  <link rel="stylesheet" href="./_inc/static/style_register.css">
+  <link rel="stylesheet" href="<?php echo $cssPath; ?>style_register.css">
   <title>IUTables'O - Inscription</title>
 </head>
 <body>

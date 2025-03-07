@@ -30,6 +30,7 @@ function authenticateUser($email, $password) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['email'] = $user['username'];
             
+            
             return true;
         }
         
