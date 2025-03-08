@@ -55,11 +55,14 @@
 }
 
 .restaurant-header img {
-    width: 300px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 0.5rem;
+    width: 100%; /* Prend toute la largeur du conteneur */
+    height: 200px; /* Hauteur fixe */
+    object-fit: cover; /* Recadre et zoom l'image si nécessaire */
+    border-radius: 0.5rem; /* Garde un design arrondi si besoin */
 }
+
+
+
 
 .restaurant-header h1 {
     font-size: 2.2rem;

@@ -28,6 +28,10 @@ function parseBoolean($value) {
     }
     return null;
 }
+$json = file_get_contents('./_inc/data/restaurants_orleans.json');
+$data = json_decode($json, true);
+
+
 
 // Fonction pour convertir un tableau en chaîne
 function arrayToString($value) {
