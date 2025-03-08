@@ -1,136 +1,507 @@
-
-/* Style pour la page resto */
-.restaurant-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-.restaurant {
-    position: relative;
-}
-
-.heart-btn {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    z-index: 2;
-}
-
-.restaurant-link:hover .restaurant {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-/* Style pour la page de détail du restaurant */
+/* Style général pour la page restaurant */
 .restaurant-details {
     max-width: 1200px;
     margin: 2rem auto;
     padding: 0 2rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* En-tête avec actions */
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
 }
 
 .retour-btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     text-decoration: none;
     color: #031D44;
-    margin-bottom: 2rem;
-    padding: 0.5rem 1rem;
-    border-radius: 40rem;
-    transition: background-color 0.3s ease;
+    padding: 0.7rem 1.2rem;
+    border-radius: 40px;
+    transition: all 0.3s ease;
+    background-color: #f2f2f2;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .retour-btn:hover {
-    background-color: #f2f2f2;
+    background-color: #e2e2e2;
+    transform: translateY(-2px);
 }
 
-.restaurant-header {
+.retour-btn i {
+    margin-right: 8px;
+}
+
+.actions-group {
     display: flex;
+    gap: 1rem;
+}
+
+.btn-favorite, .btn-like {
+    display: inline-flex;
     align-items: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background-color: #f2f2f2;
+    color: #031D44;
+}
+
+.btn-favorite i, .btn-like i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+}
+
+.btn-favorite:hover {
+    background-color: #e3f2fd;
+    color: #031D44;
+}
+
+.btn-like:hover {
+    background-color: #e3f2fd;
+    color: #031D44;
+}
+
+.btn-favorite.is-favorite {
+    background-color: #e3f2fd;
+    color: #031D44;
+}
+
+.btn-like.is-liked {
+    background-color: #e3f2fd;
+    color: #031D44;
+}
+
+/* En-tête du restaurant */
+.restaurant-header {
+    position: relative;
+    margin-bottom: 2.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .restaurant-header img {
-    width: 100%; /* Prend toute la largeur du conteneur */
-    height: 200px; /* Hauteur fixe */
-    object-fit: cover; /* Recadre et zoom l'image si nécessaire */
-    border-radius: 0.5rem; /* Garde un design arrondi si besoin */
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    display: block;
 }
-
-
-
 
 .restaurant-header h1 {
-    font-size: 2.2rem;
-    color: #031D44;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(to top, rgba(3, 29, 68, 0.85), transparent);
+    color: white;
+    font-size: 2.4rem;
+    font-weight: 600;
 }
 
-.restaurant-info-details {
+/* Cartes d'information */
+.restaurant-info-card {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+}
+
+.card-header {
+    padding: 1.5rem 2rem;
+    background-color: #f5f9ff;
+    border-bottom: 1px solid #e3f2fd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h2 {
+    margin: 0;
+    color: #031D44;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.card-content {
+    padding: 2rem;
+}
+
+/* Section de la carte */
+.map-container {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 2rem;
 }
 
-.info-section, .description-section {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+#map {
+    height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.info-section h2, .description-section h2 {
-    color: #031D44;
+.restaurant-address {
     margin-bottom: 1.5rem;
-    font-size: 1.5rem;
 }
 
-.info-section p {
-    margin-bottom: 1rem;
+.restaurant-address p {
+    display: flex;
+    align-items: center;
     font-size: 1.1rem;
+    margin: 0;
+    color: #444;
+}
+
+.restaurant-address i {
+    margin-right: 10px;
+    color: #031D44;
+}
+
+/* Style amélioré pour la section contact */
+.contact-info {
+    background-color: #f5f9ff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.contact-row:last-child {
+    margin-bottom: 0;
+}
+
+.contact-item {
+    flex: 1;
+    min-width: 150px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.contact-item i {
+    font-size: 1.2rem;
+    margin-right: 12px;
+    padding: 10px;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: #031D44;
+}
+
+.contact-item:nth-child(1) i {
+    background-color: #031D44; /* Bleu foncé pour le site web */
+}
+
+.contact-item:nth-child(2) i {
+    background-color: #0353A4; /* Bleu moyen pour l'email */
+}
+
+.contact-item:nth-child(3) i {
+    background-color: #006DAA; /* Bleu clair pour le téléphone */
+}
+
+.contact-item:nth-child(4) i {
+    background-color: #3B5998; /* Bleu Facebook */
+}
+
+.contact-item a {
     color: #333;
-}
-
-.info-section strong {
-    color: #031D44;
-}
-
-.info-section a {
-    color: #031D44;
     text-decoration: none;
+    font-weight: 500;
+    font-size: 1.05rem;
     transition: color 0.3s ease;
 }
 
-.info-section a:hover {
-    color: #023169;
-    text-decoration: underline;
+.contact-item a:hover {
+    color: #031D44;
 }
 
-.description-section p {
-    line-height: 1.6;
+/* Restaurant categories */
+.restaurant-categories {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    flex: 1;
+    min-width: 180px;
+}
+
+.restaurant-categories ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.restaurant-categories li {
+    background-color: #e3f2fd;
+    color: #031D44;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Section de description */
+.card-content p {
+    line-height: 1.8;
+    font-size: 1.05rem;
     color: #555;
+    margin: 0;
+}
+
+/* Section Avis */
+.rating-summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.average-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.rating-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #031D44;
+}
+
+.rating-stars {
+    display: flex;
+    color: #031D44;
+}
+
+.review-count {
+    color: #777;
+    font-size: 0.95rem;
+}
+
+.avis-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.avis-item {
+    background-color: #f5f9ff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.avis-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.user-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: #031D44;
+}
+
+.user-rating {
+    display: flex;
+    color: #031D44;
+}
+
+.avis-date {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.avis-content p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.no-avis {
+    text-align: center;
+    padding: 2rem;
+    color: #777;
+    font-style: italic;
+}
+
+/* Section Ajout d'avis */
+.add-avis-section {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-add-avis {
+    padding: 0.8rem 2.5rem;
+    background-color: #031D44;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 10px rgba(3, 29, 68, 0.2);
+}
+
+.btn-add-avis:hover {
+    background-color: #023169;
+    transform: translateY(-2px);
+}
+
+.avis-form-container {
+    margin-top: 1.5rem;
+    background-color: #f5f9ff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: 100%;
+}
+
+.avis-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.avis-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #031D44;
+}
+
+.rating-input {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.rating-input input {
+    display: none;
+}
+
+.rating-input label {
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 0 0.2rem;
+    color: #ddd;
+}
+
+.rating-input label:hover,
+.rating-input label:hover ~ label,
+.rating-input input:checked ~ label {
+    color: #031D44;
+}
+
+.avis-form textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #e3f2fd;
+    border-radius: 8px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.btn-submit-avis {
+    padding: 0.8rem 1.5rem;
+    background-color: #031D44;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit-avis:hover {
+    background-color: #023169;
 }
 
 /* Responsive design */
+@media (max-width: 992px) {
+    .map-container {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 768px) {
-    .restaurant-header {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .restaurant-header img {
-        width: 100%;
-        max-width: 300px;
-    }
-
     .restaurant-header h1 {
         font-size: 1.8rem;
+        padding: 1rem 1.5rem;
     }
+    
+    .header-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .actions-group {
+        width: 100%;
+    }
+    
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .rating-summary {
+        margin-top: 0.5rem;
+    }
+    
+    .contact-item {
+        min-width: 100%;
+    }
+}
 
-    .info-section, .description-section {
+@media (max-width: 480px) {
+    .restaurant-details {
+        padding: 0 1rem;
+    }
+    
+    .restaurant-header img {
+        height: 250px;
+    }
+    
+    .restaurant-header h1 {
+        font-size: 1.6rem;
+    }
+    
+    .card-content {
         padding: 1.5rem;
     }
-} 
+}
