@@ -1,5 +1,5 @@
 <?php
-require_once '../_inc/bd/db.php';
+    require_once '_inc\bd\db.php';
 
 /**
  * Convertit une valeur en booléen pour PostgreSQL.
@@ -42,7 +42,11 @@ function arrayToString($value) {
 }
 
 // Charger le fichier JSON des restaurants
-$json = file_get_contents('../_inc/data/restaurants_orleans.json');
+$filePath = __DIR__ . '/../_inc/data/restaurants_orleans.json';
+if (!file_exists($filePath)) {
+    die("Le fichier JSON n'existe pas à l'emplacement spécifié.");
+}
+$json = file_get_contents($filePath);
 $data = json_decode($json, true);
 
 // Connexion à la base de données Supabase
@@ -88,56 +92,55 @@ $sql = "INSERT INTO \"Restaurant\" (
 $stmt = $pdo->prepare($sql);
 
 // Boucle sur tous les restaurants du JSON
-foreach ($data as $record) {
-    // Nettoyage de l'osm_id pour ne conserver que les chiffres
-    $osm_id = preg_replace('/[^0-9]/', '', $record['osm_id']);
+try {
+    foreach ($data as $record) {
+        // Nettoyage de l'osm_id pour ne conserver que les chiffres
+        $osm_id = preg_replace('/[^0-9]/', '', $record['osm_id']);
 
-    $params = [
-        ':type_restaurant'    => $record['type'],
-        ':nom_restaurant'     => $record['name'],
-        ':telephone_restaurant' => isset($record['phone']) ? $record['phone'] : null,
-        ':site_restaurant'    => $record['website'],
-        ':departement'        => $record['departement'],
-        ':code_departement'   => $record['code_departement'],
-        ':commune'            => $record['commune'],
-        ':code_commune'       => $record['code_commune'],
-        ':latitude'           => isset($record['geo_point_2d']["lat"]) ? $record['geo_point_2d']["lat"] : null,
-        ':longitude'          => isset($record['geo_point_2d']["lon"]) ? $record['geo_point_2d']["lon"] : null,
-        ':stars'              => $record['stars'],
-        ':capacity'           => $record['capacity'],
-        ':drive_through'      => $record['drive_through'],
-        ':wikidata'           => $record['wikidata'],
-        ':brand_wikidata'     => $record['brand_wikidata'],
-        ':opening_hours'      => $record['opening_hours'],
-        ':wheelchair'         => $record['wheelchair'],  // À traiter si besoin (vous pouvez appliquer parseBoolean si c'est attendu en booléen)
-        ':cuisine'            => arrayToString($record['cuisine']),
-        ':vegetarian'         => parseBoolean($record['vegetarian']),
-        ':vegan'              => parseBoolean($record['vegan']),
-        ':delivery'           => parseBoolean($record['delivery']),
-        ':takeaway'           => parseBoolean($record['takeaway']),
-        // Conversion pour internet_access
-        ':internet_access'    => parseBoolean($record['internet_access']),
-        ':smoking'            => $record['smoking'],
-        ':com_insee'          => $record['com_insee'],
-        ':com_nom'            => $record['com_nom'],
-        ':region'             => $record['region'],
-        ':code_region'        => $record['code_region'],
-        ':osm_edit'           => $record['osm_edit'],
-        ':osm_id'             => $osm_id,
-        ':operator'           => $record['operator'],
-        ':brand'              => $record['brand'],
-        ':website'            => $record['website'],
-        ':facebook'           => $record['facebook']
-    ];
+        $params = [
+            ':type_restaurant'    => $record['type'],
+            ':nom_restaurant'     => $record['name'],
+            ':telephone_restaurant' => isset($record['phone']) ? $record['phone'] : null,
+            ':site_restaurant'    => $record['website'],
+            ':departement'        => $record['departement'],
+            ':code_departement'   => $record['code_departement'],
+            ':commune'            => $record['commune'],
+            ':code_commune'       => $record['code_commune'],
+            ':latitude'           => isset($record['geo_point_2d']["lat"]) ? $record['geo_point_2d']["lat"] : null,
+            ':longitude'          => isset($record['geo_point_2d']["lon"]) ? $record['geo_point_2d']["lon"] : null,
+            ':stars'              => $record['stars'],
+            ':capacity'           => $record['capacity'],
+            ':drive_through'      => $record['drive_through'],
+            ':wikidata'           => $record['wikidata'],
+            ':brand_wikidata'     => $record['brand_wikidata'],
+            ':opening_hours'      => $record['opening_hours'],
+            ':wheelchair'         => $record['wheelchair'],  // À traiter si besoin (vous pouvez appliquer parseBoolean si c'est attendu en booléen)
+            ':cuisine'            => arrayToString($record['cuisine']),
+            ':vegetarian'         => parseBoolean($record['vegetarian']),
+            ':vegan'              => parseBoolean($record['vegan']),
+            ':delivery'           => parseBoolean($record['delivery']),
+            ':takeaway'           => parseBoolean($record['takeaway']),
+            // Conversion pour internet_access
+            ':internet_access'    => parseBoolean($record['internet_access']),
+            ':smoking'            => $record['smoking'],
+            ':com_insee'          => $record['com_insee'],
+            ':com_nom'            => $record['com_nom'],
+            ':region'             => $record['region'],
+            ':code_region'        => $record['code_region'],
+            ':osm_edit'           => $record['osm_edit'],
+            ':osm_id'             => $osm_id,
+            ':operator'           => $record['operator'],
+            ':brand'              => $record['brand'],
+            ':website'            => $record['website'],
+            ':facebook'           => $record['facebook']
+        ];
 
-    $stmt->execute($params);
+        $stmt->execute($params);
 
-    echo "Insertion réussie ! 🚀";
-
+        echo "Insertion réussie ! 🚀<br>";
+    }
 } catch (PDOException $e) {
-    echo "Erreur lors de l'insertion : " . $e->getMessage();
+    echo "Erreur lors de l'insertion : " . $e->getMessage() . "<br>";
 }
 
-
 echo "Insertion réussie pour tous les restaurants ! 🚀";
-?>
