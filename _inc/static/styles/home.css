@@ -8,7 +8,6 @@
     margin: 2rem auto;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
 .search-container input {
     flex: 1;
     border: none;
@@ -17,7 +16,6 @@
     outline: none;
     background: none;
 }
-
 .search-container button {
     background-color: #031D44;
     color: white;
@@ -31,31 +29,26 @@
     justify-content: center;
     transition: background-color 0.3s ease;
 }
-
 .search-container button:hover {
     background-color: #023169;
 }
-
 .search-container img {
     width: 1.2rem;
     height: 1.2rem;
     filter: brightness(0) invert(1);
 }
-
 .search-info {
     text-align: center;
     color: #666;
     margin: 1rem 0 2rem;
     font-size: 0.9rem;
 }
-
 .restaurant-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
     padding: 2rem;
 }
-
 .filters-container {
     display: flex;
     gap: 20px;
@@ -67,14 +60,13 @@
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex-wrap: wrap;
 }
-
 .filter-toggle {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-
 .filter-label {
     display: flex;
     align-items: center;
@@ -82,19 +74,18 @@
     font-size: 14px;
     color: #333;
 }
-
 .filter-label i {
     font-size: 16px;
 }
-
 .filter-label i.fa-leaf {
     color: #4CAF50;
 }
-
 .filter-label i.fa-wheelchair {
     color: #2196F3;
 }
-
+.filter-label i.fa-clock {
+    color: #FF9800;
+}
 /* The switch - the box around the slider */
 .switch {
     position: relative;
@@ -102,14 +93,12 @@
     width: 46px;
     height: 24px;
 }
-
 /* Hide default HTML checkbox */
 .switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
-
 /* The slider */
 .slider {
     position: absolute;
@@ -121,7 +110,6 @@
     background-color: #ccc;
     transition: .4s;
 }
-
 .slider:before {
     position: absolute;
     content: "";
@@ -132,42 +120,45 @@
     background-color: white;
     transition: .4s;
 }
-
 input:checked + .slider {
     background-color: #4CAF50;
 }
-
 #filter-wheelchair:checked + .slider {
     background-color: #2196F3;
 }
-
+#filter-open-now:checked + .slider {
+    background-color: #FF9800;
+}
 input:focus + .slider {
     box-shadow: 0 0 1px #4CAF50;
 }
-
 #filter-wheelchair:focus + .slider {
     box-shadow: 0 0 1px #2196F3;
 }
-
+#filter-open-now:focus + .slider {
+    box-shadow: 0 0 1px #FF9800;
+}
 input:checked + .slider:before {
     transform: translateX(22px);
 }
-
 /* Rounded sliders */
 .slider.round {
     border-radius: 34px;
 }
-
 .slider.round:before {
     border-radius: 50%;
 }
-
-#recherche_by_type {
+.filter-select {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+#recherche_by_type,
+#recherche_by_cuisine {
     width: 100%;
     max-width: 120px;
-    margin: 0 auto 20px;
     padding: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.9rem;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: white;
@@ -178,8 +169,72 @@ input:checked + .slider:before {
     cursor: pointer;
     transition: border-color 0.3s ease;
 }
-
-#recherche_by_type:focus {
+#recherche_by_type:focus,
+#recherche_by_cuisine:focus {
     border-color: #4CAF50;
     outline: none;
-} 
+}
+.restaurant {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.restaurant:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+.restaurant-info {
+    padding: 1rem;
+}
+.restaurant-info img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+.restaurant-info h2 {
+    margin: 0 0 0.5rem;
+    color: #031D44;
+    font-size: 1.4rem;
+}
+.restaurant-link {
+    text-decoration: none;
+    color: inherit;
+}
+.restaurant-details {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #666;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 10px;
+}
+.opening-hours, .website-link, .cuisine-type {
+    margin: 3px 0;
+}
+.open-now {
+    color: #4CAF50;
+    font-weight: bold;
+}
+.closed-now {
+    color: #F44336;
+}
+.restaurant-attributes {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+.restaurant-attributes i {
+    font-size: 18px;
+}
+.restaurant-attributes i.fa-leaf {
+    color: #4CAF50;
+}
+.restaurant-attributes i.fa-wheelchair {
+    color: #2196F3;
+}
+.restaurant-attributes i.fa-door-open {
+    color: #FF9800;
+}
