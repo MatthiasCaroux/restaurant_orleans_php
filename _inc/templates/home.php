@@ -57,6 +57,19 @@ sort($tout_type); // Trie alphabétiquement
                 <option><?php echo htmlspecialchars($type); ?></option>
             <?php endforeach; ?>
         </select>
+        <?php if ($isLoggedIn): ?>
+            <?php
+            // Récupérer les types de cuisine favoris de l'utilisateur
+            require_once __DIR__ . "/../bd/favoris_bd.php";
+            $favoris_cuisines = getFavorisCuisinesByUserId($_SESSION['user_id']);
+            ?>
+            <?php if (!empty($favoris_cuisines)): ?>
+                <div class="favoris-container">
+                    <input type="checkbox" id="filter-favoris" name="filter-favoris">
+                    <label for="filter-favoris">N'afficher que les types de cuisine que vous aimez</label>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
         <section>
             <div class="restaurant-container">
                 <?php if(!empty($restaurants)): ?>

@@ -42,7 +42,22 @@ function get_cuisine_id_by_name($cuisine){
     $stmt->execute();
     return $stmt->fetchColumn();
 }
+function delete_favoris_cuisine($id,$user_id){
+    $pdo = getPDO();
+    $query = 'DELETE FROM favoris_cuisine WHERE id_type_cuisine = :id AND id_utilisateur = :user_id';
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+}
+function getFavorisCuisinesByUserId($userId) {
+    $pdo = getPDO();
+    $query = 'SELECT nom_type_cuisine FROM favoris_cuisine JOIN "Type_cuisine" ON favoris_cuisine.id_type_cuisine = "Type_cuisine".id_type_cuisine WHERE id_utilisateur = :userId';
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
 ?>
-
 
 
