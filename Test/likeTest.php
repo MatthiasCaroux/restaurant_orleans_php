@@ -75,30 +75,24 @@ class LikeTest extends TestCase {
     }
 
     public function testAddRestaurantToLikedWhenAlreadyLiked() {
-        // Ajouter d'abord aux favoris
         addRestaurantToLiked($this->userId, $this->restaurantId);
         
-        // Essayer d'ajouter à nouveau
         $result = addRestaurantToLiked($this->userId, $this->restaurantId);
         $this->assertTrue($result);
         
-        // Vérifier qu'il n'y a qu'une seule entrée
         $stmt = $this->pdo->query('SELECT COUNT(*) FROM "Appreciation" WHERE id_utilisateur = ' . $this->userId . ' AND id_restaurant = ' . $this->restaurantId);
         $count = $stmt->fetchColumn();
         $this->assertEquals(1, $count);
     }
 
     public function testAddRestaurantToLikedWhenAlreadyInAppreciationButNotLiked() {
-        // Crée une entrée Appreciation avec Aimer = false
         $sql = 'INSERT INTO "Appreciation" (id_utilisateur, id_restaurant, "Aimer", "Favoris") VALUES (?, ?, false, false)';
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$this->userId, $this->restaurantId]);
         
-        // Maintenant on ajoute aux likes
         $result = addRestaurantToLiked($this->userId, $this->restaurantId);
         $this->assertTrue($result);
         
-        // Vérifier que c'est maintenant liké
         $stmt = $this->pdo->query('SELECT "Aimer" FROM "Appreciation" WHERE id_utilisateur = ' . $this->userId . ' AND id_restaurant = ' . $this->restaurantId);
         $isLiked = $stmt->fetchColumn();
         $this->assertTrue((bool)$isLiked);
@@ -116,7 +110,6 @@ class LikeTest extends TestCase {
     }
 
     public function testRemoveRestaurantFromLikedWhenNotExisting() {
-        // Tenter de supprimer un restaurant qui n'est pas dans les j'aime
         $result = removeRestaurantFromLiked($this->userId, $this->restaurantId);
         $this->assertFalse($result);
     }
@@ -137,14 +130,12 @@ class LikeTest extends TestCase {
     }
 
     public function testLikeMultipleRestaurants() {
-        // Aimer deux restaurants différents
         $result1 = addRestaurantToLiked($this->userId, $this->restaurantId);
         $result2 = addRestaurantToLiked($this->userId, $this->secondRestaurantId);
         
         $this->assertTrue($result1);
         $this->assertTrue($result2);
         
-        // Vérifier que les deux sont aimés
         $isLiked1 = isRestaurantLiked($this->userId, $this->restaurantId);
         $isLiked2 = isRestaurantLiked($this->userId, $this->secondRestaurantId);
         
@@ -153,16 +144,13 @@ class LikeTest extends TestCase {
     }
 
     public function testLikeAfterAddingToFavorites() {
-        // D'abord ajouter aux favoris
         $sql = 'INSERT INTO "Appreciation" (id_utilisateur, id_restaurant, "Aimer", "Favoris") VALUES (?, ?, false, true)';
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$this->userId, $this->restaurantId]);
         
-        // Ensuite aimer
         $result = addRestaurantToLiked($this->userId, $this->restaurantId);
         $this->assertTrue($result);
         
-        // Vérifier qu'on a toujours les favoris et maintenant aussi un j'aime
         $stmt = $this->pdo->query('SELECT "Aimer", "Favoris" FROM "Appreciation" WHERE id_utilisateur = ' . $this->userId . ' AND id_restaurant = ' . $this->restaurantId);
         $appreciation = $stmt->fetch(PDO::FETCH_ASSOC);
         
@@ -171,16 +159,42 @@ class LikeTest extends TestCase {
     }
 
     public function testRemoveNonExistentLike() {
-        // Essayer de retirer un j'aime pour un restaurant qui n'est pas dans la table
         $result = removeRestaurantFromLiked($this->userId, 9999);
         $this->assertFalse($result);
     }
 
     public function testExceptionHandlingInIsRestaurantLiked() {
-        // Test avec un ID invalide pour provoquer une erreur
-        // Remarque: ce test pourrait échouer selon la façon dont votre base de données traite les erreurs
         $isLiked = isRestaurantLiked($this->userId, "invalid_id");
-        $this->assertFalse($isLiked);  // Devrait retourner false en cas d'erreur
+        $this->assertFalse($isLiked);
+    }
+    
+    public function testAddRestaurantToLikedWithInvalidInputs() {
+        $result = addRestaurantToLiked('invalid_user', $this->restaurantId);
+        $this->assertFalse($result);
+        
+        $result = addRestaurantToLiked($this->userId, 'invalid_id');
+        $this->assertFalse($result);
+    }
+    
+    public function testRemoveRestaurantFromLikedWithInvalidInputs() {
+        $result = removeRestaurantFromLiked('invalid_user', $this->restaurantId);
+        $this->assertFalse($result);
+        
+        $result = removeRestaurantFromLiked($this->userId, 'invalid_id');
+        $this->assertFalse($result);
+    }
+    
+    public function testIsRestaurantLikedWithInvalidInputs() {
+        $result = isRestaurantLiked('invalid_user', $this->restaurantId);
+        $this->assertFalse($result);
+        
+        $result = isRestaurantLiked($this->userId, 'invalid_id');
+        $this->assertFalse($result);
+    }
+    
+    public function testIsRestaurantLikedWithSQLInjection() {
+        $result = isRestaurantLiked($this->userId, "1; DROP TABLE \"Appreciation\";");
+        $this->assertFalse($result);
     }
 }
 ?>

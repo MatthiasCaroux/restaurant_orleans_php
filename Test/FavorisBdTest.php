@@ -59,14 +59,12 @@ class FavorisBdTest extends TestCase {
     }
 
     protected function tearDown(): void {
-        // Nettoyer après les tests
         try {
             $this->pdo->exec('DELETE FROM "Appreciation" WHERE id_restaurant IN (1, 2)');
             $this->pdo->exec('DELETE FROM "Restaurant" WHERE id_restaurant IN (1, 2)');
             $this->pdo->exec('DELETE FROM "Appreciation" WHERE id_utilisateur = ' . $this->userId);
             $this->pdo->exec('DELETE FROM "Appreciation" WHERE id_utilisateur = ' . $this->secondUserId);
         } catch (PDOException $e) {
-            // Ignorer les erreurs lors du nettoyage
         }
     }
 
@@ -82,7 +80,6 @@ class FavorisBdTest extends TestCase {
     }
 
     public function testAddRestaurantToFavoritesWithInvalidInputs() {
-        // Tester avec des valeurs non numériques
         $result1 = addRestaurantToFavorites('abc', $this->restaurantId);
         $this->assertFalse($result1);
         
@@ -97,7 +94,6 @@ class FavorisBdTest extends TestCase {
     }
 
     public function testAddRestaurantToFavoritesCatchBlock() {
-        // Créer un mock de PDO qui lèvera une exception
         $mockPdo = $this->getMockBuilder(PDO::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -111,45 +107,36 @@ class FavorisBdTest extends TestCase {
         $mockStatement->method('execute')
             ->will($this->throwException(new PDOException('Test exception')));
             
-        // Remplacer la fonction getPDO pour qu'elle retourne notre mock
         global $testMode, $mockPdoToUse;
         $testMode = true;
         $mockPdoToUse = $mockPdo;
         
-        // Appeler la fonction - elle devrait attraper l'exception et retourner false
         $result = addRestaurantToFavorites($this->userId, $this->restaurantId);
         $this->assertFalse($result);
         
-        // Remettre les variables globales à leur état initial
         $testMode = false;
         $mockPdoToUse = null;
     }
 
     public function testAddRestaurantToFavoritesWhenAlreadyFavorite() {
-        // Ajouter d'abord aux favoris
         addRestaurantToFavorites($this->userId, $this->restaurantId);
         
-        // Essayer d'ajouter à nouveau
         $result = addRestaurantToFavorites($this->userId, $this->restaurantId);
         $this->assertTrue($result);
         
-        // Vérifier qu'il n'y a qu'une seule entrée
         $stmt = $this->pdo->query('SELECT COUNT(*) FROM "Appreciation" WHERE id_utilisateur = ' . $this->userId . ' AND id_restaurant = ' . $this->restaurantId);
         $count = $stmt->fetchColumn();
         $this->assertEquals(1, $count);
     }
 
     public function testAddRestaurantToFavoritesWhenAlreadyInAppreciationButNotFavorite() {
-        // Crée une entrée Appreciation avec Favoris = false
         $sql = 'INSERT INTO "Appreciation" (id_utilisateur, id_restaurant, "Aimer", "Favoris") VALUES (?, ?, false, false)';
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$this->userId, $this->restaurantId]);
         
-        // Maintenant on ajoute aux favoris
         $result = addRestaurantToFavorites($this->userId, $this->restaurantId);
         $this->assertTrue($result);
         
-        // Vérifier que c'est maintenant favoris
         $stmt = $this->pdo->query('SELECT "Favoris" FROM "Appreciation" WHERE id_utilisateur = ' . $this->userId . ' AND id_restaurant = ' . $this->restaurantId);
         $isFavorite = $stmt->fetchColumn();
         $this->assertTrue((bool)$isFavorite);
@@ -166,7 +153,6 @@ class FavorisBdTest extends TestCase {
     }
 
     public function testRemoveRestaurantFromFavoritesWithInvalidInputs() {
-        // Tester avec des valeurs non numériques
         $result1 = removeRestaurantFromFavorites('abc', $this->restaurantId);
         $this->assertFalse($result1);
         
@@ -178,7 +164,6 @@ class FavorisBdTest extends TestCase {
     }
 
     public function testRemoveRestaurantFromFavoritesCatchBlock() {
-        // Créer un mock de PDO qui lèvera une exception
         $mockPdo = $this->getMockBuilder(PDO::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -192,7 +177,6 @@ class FavorisBdTest extends TestCase {
         $mockStatement->method('execute')
             ->will($this->throwException(new PDOException('Test exception')));
             
-        // Remplacer la fonction getPDO
         global $testMode, $mockPdoToUse;
         $testMode = true;
         $mockPdoToUse = $mockPdo;
@@ -200,13 +184,11 @@ class FavorisBdTest extends TestCase {
         $result = removeRestaurantFromFavorites($this->userId, $this->restaurantId);
         $this->assertFalse($result);
         
-        // Restaurer l'état initial
         $testMode = false;
         $mockPdoToUse = null;
     }
 
     public function testRemoveRestaurantFromFavoritesWhenNotExisting() {
-        // Tenter de supprimer un restaurant qui n'est pas dans les favoris
         $result = removeRestaurantFromFavorites($this->userId, 9999);
         $this->assertFalse($result);
     }
@@ -222,7 +204,6 @@ class FavorisBdTest extends TestCase {
     }
 
     public function testIsRestaurantFavoriteWithInvalidInputs() {
-        // Tester avec des valeurs non numériques
         $result1 = isRestaurantFavorite('abc', $this->restaurantId);
         $this->assertFalse($result1);
         
@@ -234,7 +215,6 @@ class FavorisBdTest extends TestCase {
     }
 
     public function testIsRestaurantFavoriteCatchBlock() {
-        // Créer un mock de PDO qui lèvera une exception
         $mockPdo = $this->getMockBuilder(PDO::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -248,7 +228,6 @@ class FavorisBdTest extends TestCase {
         $mockStatement->method('execute')
             ->will($this->throwException(new PDOException('Test exception')));
             
-        // Remplacer la fonction getPDO
         global $testMode, $mockPdoToUse;
         $testMode = true;
         $mockPdoToUse = $mockPdo;
@@ -256,7 +235,6 @@ class FavorisBdTest extends TestCase {
         $result = isRestaurantFavorite($this->userId, $this->restaurantId);
         $this->assertFalse($result);
         
-        // Restaurer l'état initial
         $testMode = false;
         $mockPdoToUse = null;
     }
@@ -267,28 +245,22 @@ class FavorisBdTest extends TestCase {
     }
 
     public function testGetFavoritesForUser() {
-        // S'assurer qu'il n'y a pas de favoris préexistants pour cet utilisateur
         $this->pdo->exec('DELETE FROM "Appreciation" WHERE id_utilisateur = ' . $this->userId);
         
-        // Ajouter des restaurants aux favoris
         addRestaurantToFavorites($this->userId, $this->restaurantId);
         addRestaurantToFavorites($this->userId, $this->secondRestaurantId);
         
-        // Récupérer les favoris
         $favorites = getFavoritesForUser($this->userId);
         
-        // Vérifier le résultat
         $this->assertIsArray($favorites);
         $this->assertCount(2, $favorites);
         
-        // Vérifier que les deux restaurants sont présents
         $restaurantIds = array_column($favorites, 'id_restaurant');
         $this->assertContains($this->restaurantId, $restaurantIds);
         $this->assertContains($this->secondRestaurantId, $restaurantIds);
     }
 
     public function testGetFavoritesForUserWithInvalidInput() {
-        // Test avec un ID invalide
         $favorites = getFavoritesForUser('abc');
         $this->assertIsArray($favorites);
         $this->assertEmpty($favorites);
@@ -299,7 +271,6 @@ class FavorisBdTest extends TestCase {
     }
 
     public function testGetFavoritesForUserCatchBlock() {
-        // Créer un mock de PDO qui lèvera une exception
         $mockPdo = $this->getMockBuilder(PDO::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -313,7 +284,6 @@ class FavorisBdTest extends TestCase {
         $mockStatement->method('execute')
             ->will($this->throwException(new PDOException('Test exception')));
             
-        // Remplacer la fonction getPDO
         global $testMode, $mockPdoToUse;
         $testMode = true;
         $mockPdoToUse = $mockPdo;
@@ -322,32 +292,26 @@ class FavorisBdTest extends TestCase {
         $this->assertIsArray($result);
         $this->assertEmpty($result);
         
-        // Restaurer l'état initial
         $testMode = false;
         $mockPdoToUse = null;
     }
 
     public function testGetFavoritesForUserWithNoFavorites() {
-        // S'assurer qu'il n'y a pas de favoris préexistants pour cet utilisateur
         $this->pdo->exec('DELETE FROM "Appreciation" WHERE id_utilisateur = ' . $this->secondUserId);
         
-        // Récupérer les favoris pour un utilisateur qui n'en a pas
         $favorites = getFavoritesForUser($this->secondUserId);
         
-        // Vérifier que c'est un tableau vide
         $this->assertIsArray($favorites);
         $this->assertEmpty($favorites);
     }
 
     public function testAddMultipleRestaurantsToFavorites() {
-        // Ajouter deux restaurants différents aux favoris
         $result1 = addRestaurantToFavorites($this->userId, $this->restaurantId);
         $result2 = addRestaurantToFavorites($this->userId, $this->secondRestaurantId);
         
         $this->assertTrue($result1);
         $this->assertTrue($result2);
         
-        // Vérifier que les deux sont en favoris
         $isFavorite1 = isRestaurantFavorite($this->userId, $this->restaurantId);
         $isFavorite2 = isRestaurantFavorite($this->userId, $this->secondRestaurantId);
         
@@ -356,16 +320,13 @@ class FavorisBdTest extends TestCase {
     }
 
     public function testAddToFavoritesAfterLiking() {
-        // D'abord aimer
         $sql = 'INSERT INTO "Appreciation" (id_utilisateur, id_restaurant, "Aimer", "Favoris") VALUES (?, ?, true, false)';
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$this->userId, $this->restaurantId]);
-        
-        // Ensuite ajouter aux favoris
+
         $result = addRestaurantToFavorites($this->userId, $this->restaurantId);
         $this->assertTrue($result);
         
-        // Vérifier qu'on a toujours le j'aime et maintenant aussi un favoris
         $stmt = $this->pdo->query('SELECT "Aimer", "Favoris" FROM "Appreciation" WHERE id_utilisateur = ' . $this->userId . ' AND id_restaurant = ' . $this->restaurantId);
         $appreciation = $stmt->fetch(PDO::FETCH_ASSOC);
         
