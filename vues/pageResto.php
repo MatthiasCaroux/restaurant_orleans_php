@@ -55,6 +55,24 @@ if ($isLoggedIn && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['like_a
     exit;
 }
 
+require_once "../_inc/bd/avis_bd.php";
+
+$avis = getAvisForRestaurant($id_restaurant);
+
+
+// Traitement du formulaire d'avis
+if ($isLoggedIn && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_avis'], $_POST['id_restaurant'])) {
+    $restaurant_id = intval($_POST['id_restaurant']);
+    $titre = $_POST['titre'];
+    $texte = $_POST['texte'];
+    $note = $_POST['note'];
+    $success = addAvis($titre, $texte, $note, $restaurant_id, $user_id);
+    if (!$success) {
+        $error_message = "Vous avez déjà déposé un avis pour ce restaurant.";
+    }    
+    header("Location: pageResto.php?id=" . $restaurant_id);
+    exit;
+}
 
 
 // Récupération des détails du restaurant
@@ -275,10 +293,12 @@ $image_url = file_exists($image_path) ? $image_path : $default_image;
                 <h2>Avis</h2>
                 <div class="rating-summary">
                     <div class="average-rating">
-                        <span class="rating-number"><?php echo number_format($restaurant['note_moyenne'] ?? 0, 1); ?></span>
+                        <span class="rating-number">
+                            <?php echo number_format(getNoteMoyenneRestaurant($id_restaurant) ?? 0, 1); ?>
+                        </span>
                         <div class="rating-stars">
                             <?php 
-                            $avgRating = $restaurant['note_moyenne'] ?? 0;
+                            $avgRating = getNoteMoyenneRestaurant($id_restaurant) ?? 0;
                             for($i = 1; $i <= 5; $i++) {
                                 if($i <= $avgRating) {
                                     echo '<i class="fas fa-star filled"></i>';
@@ -291,35 +311,34 @@ $image_url = file_exists($image_path) ? $image_path : $default_image;
                             ?>
                         </div>
                     </div>
-                    <span class="review-count"><?php echo number_format($totalAvis ?? 0); ?> avis</span>
+                    <span class="review-count"><?php echo getNombreAvisRestaurant($id_restaurant) ?? 0; ?> avis</span>
                 </div>
             </div>
             
             <div class="card-content">
-                <?php if (isset($avis) && is_array($avis) && count($avis) > 0): ?>
+                <?php if (!empty($avis) && is_array($avis)): ?>
                     <div class="avis-container">
                         <?php foreach($avis as $unAvis): ?>
                             <div class="avis-item">
                                 <div class="avis-header">
                                     <div class="user-info">
-                                        <h3><?php echo htmlspecialchars($unAvis['username'] ?? 'Utilisateur'); ?></h3>
+                                        <h3><?php echo htmlspecialchars(explode('@', $unAvis['username'] ?? 'Utilisateur')[0]); ?></h3>
                                         <div class="user-rating">
                                             <?php 
                                             $rating = $unAvis['note'] ?? 0;
                                             for($i = 1; $i <= 5; $i++) {
-                                                if($i <= $rating) {
-                                                    echo '<i class="fas fa-star filled"></i>';
-                                                } else {
-                                                    echo '<i class="far fa-star"></i>';
-                                                }
+                                                echo $i <= $rating 
+                                                    ? '<i class="fas fa-star filled"></i>' 
+                                                    : '<i class="far fa-star"></i>';
                                             }
                                             ?>
                                         </div>
                                     </div>
-                                    <span class="avis-date"><?php echo htmlspecialchars($unAvis['date_avis'] ?? ''); ?></span>
+                                    <span class="avis-date">ID Avis: <?php echo htmlspecialchars($unAvis['id_Avis'] ?? ''); ?></span>
                                 </div>
                                 <div class="avis-content">
-                                    <p><?php echo htmlspecialchars($unAvis['commentaire'] ?? ''); ?></p>
+                                    <h4><?php echo htmlspecialchars($unAvis['Titre'] ?? ''); ?></h4>
+                                    <p><?php echo htmlspecialchars($unAvis['text'] ?? ''); ?></p>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -328,35 +347,94 @@ $image_url = file_exists($image_path) ? $image_path : $default_image;
                     <p class="no-avis">Aucun avis pour le moment.</p>
                 <?php endif; ?>
                 
-                <?php if ($isLoggedIn): ?>
+                <?php 
+        // Vérifier si l'utilisateur a déjà laissé un avis
+        $hasLeftReview = false;
+        if (isset($_SESSION['username'])) {
+            foreach ($avis as $unAvis) {
+                if (isset($unAvis['username']) && $unAvis['username'] === $_SESSION['username']) {
+                $hasLeftReview = true;
+                    break;
+                }
+            }
+        }
+        ?>
+        <?php if ($isLoggedIn && !$hasLeftReview): ?>
                     <div class="add-avis-section">
                         <button class="btn-add-avis" id="toggleAvisForm">Ajouter un avis</button>
                         
                         <div class="avis-form-container" id="avisFormContainer" style="display: none;">
-                            <form method="POST" class="avis-form">
+                            <form method="POST" action="pageResto.php?id=<?php echo $id_restaurant; ?>" class="avis-form">
                                 <div class="form-group">
-                                    <label for="note_restaurant">Votre note:</label>
+                                    <label for="titre">Titre de votre avis :</label>
+                                    <input type="text" name="titre" id="titre" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="texte">Votre commentaire :</label>
+                                    <textarea name="texte" id="texte" rows="5" required></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="note">Votre note :</label>
                                     <div class="rating-input">
-                                        <?php for($i = 1; $i <= 5; $i++): ?>
-                                            <input type="radio" id="star<?php echo $i; ?>" name="note_restaurant" value="<?php echo $i; ?>" />
-                                            <label for="star<?php echo $i; ?>"><i class="far fa-star"></i></label>
+                                        <?php for ($i = 5; $i >= 1; $i--): ?>
+                                            <input type="radio" id="star<?php echo $i; ?>" name="note" value="<?php echo $i; ?>" required>
+                                            <label for="star<?php echo $i; ?>">
+                                                <i class="fas fa-star"></i>
+                                            </label>
                                         <?php endfor; ?>
                                     </div>
                                 </div>
-                                
-                                <div class="form-group">
-                                    <label for="avis">Votre commentaire:</label>
-                                    <textarea name="avis" id="avis" rows="5" placeholder="Partagez votre expérience..."></textarea>
-                                </div>
-                                
+
                                 <input type="hidden" name="id_restaurant" value="<?php echo $id_restaurant; ?>">
-                                <button type="submit" class="btn-submit-avis">Publier votre avis</button>
+                                <button type="submit" name="submit_avis" class="btn-submit-avis">Publier votre avis</button>
                             </form>
                         </div>
                     </div>
                 <?php endif; ?>
             </div>
         </div>
+
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const toggleButton = document.getElementById('toggleAvisForm');
+                const formContainer = document.getElementById('avisFormContainer');
+                
+                if (toggleButton && formContainer) {
+                    toggleButton.addEventListener('click', function() {
+                        formContainer.classList.toggle('visible');
+                        toggleButton.textContent = formContainer.classList.contains('visible') ? 'Annuler' : 'Ajouter un avis';
+                    });
+                }
+
+                // Script pour les étoiles interactives dans le formulaire d'avis
+                const inputs = document.querySelectorAll('.rating-input input');
+                const labels = document.querySelectorAll('.rating-input label i');
+
+                inputs.forEach((input, index) => {
+                    input.addEventListener('change', function() {
+                        labels.forEach((label, labelIndex) => {
+                            label.classList.toggle('filled', labelIndex < (5 - index));
+                        });
+                    });
+                });
+            });
+        </script>
+
+        <style>
+            .avis-form-container {
+                display: none;
+                transition: opacity 0.3s ease-in-out;
+            }
+            .avis-form-container.visible {
+                display: block;
+                opacity: 1;
+            }
+        </style>
+
     </main>
 
     <script>
