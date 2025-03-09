@@ -27,7 +27,7 @@ if (isset($_GET['action'])) {
                 } else {
                     // Redirection vers la page de connexion avec un message d'erreur
                     error_log("Échec de connexion pour l'email: " . $email);
-                    header('Location: login.php?error=1');
+                    header('Location: vues/login.php?error=1');
                     exit();
                 }
             }
@@ -42,7 +42,7 @@ if (isset($_GET['action'])) {
 
                 // Vérifier que les mots de passe correspondent
                 if ($password !== $password_confirm) {
-                    header('Location: register.php?error=passwords_mismatch');
+                    header('Location: vues/register.php?error=passwords_mismatch');
                     exit();
                 }
 
@@ -55,7 +55,7 @@ if (isset($_GET['action'])) {
                         exit();
                     }
                 } else {
-                    header('Location: register.php?error=email_exists');
+                    header('Location: vues/register.php?error=email_exists');
                     exit();
                 }
             }

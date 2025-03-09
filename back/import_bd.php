@@ -1,16 +1,13 @@
 <?php
-    require_once '_inc\bd\db.php';
+    require_once '../_inc/bd/db.php';
 
 /**
  * Convertit une valeur en booléen pour PostgreSQL.
  * Renvoie null si la valeur est vide ou invalide.
  */
 function parseBoolean($value) {
-    if (is_array($value)) {
-        return null;
-    }
-    if (empty($value) || $value === "") {
-        return null;
+    if (is_array($value) || $value === "" || $value === null) {
+        return null; // Convertit "" en NULL au lieu de provoquer une erreur
     }
     if (is_bool($value)) {
         return $value;
@@ -18,7 +15,7 @@ function parseBoolean($value) {
     if (!is_string($value)) {
         return null;
     }
-    
+
     $value = strtolower(trim($value));
     if (in_array($value, ['true', '1', 'yes', 'on', 't'])) {
         return true;
@@ -28,8 +25,7 @@ function parseBoolean($value) {
     }
     return null;
 }
-$json = file_get_contents('./_inc/data/restaurants_orleans.json');
-$data = json_decode($json, true);
+
 
 
 
@@ -42,7 +38,7 @@ function arrayToString($value) {
 }
 
 // Charger le fichier JSON des restaurants
-$filePath = __DIR__ . '/../_inc/data/restaurants_orleans.json';
+$filePath = __DIR__ . '/../_inc/data/restaurants_orleans2.json';
 if (!file_exists($filePath)) {
     die("Le fichier JSON n'existe pas à l'emplacement spécifié.");
 }
@@ -61,6 +57,12 @@ try {
     $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
     $pdo = new PDO($dsn, $user, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    //permet d'avoir une connexion persistante
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); // Désactive l'émulation des requêtes préparées
+    $pdo->setAttribute(PDO::ATTR_PERSISTENT, true); // Rend la connexion persistante
+
 
     echo "Connexion réussie ! 🚀<br>";
 } catch (PDOException $e) {
@@ -116,12 +118,12 @@ foreach ($data as $record) {
         ':opening_hours'      => $record['opening_hours'],
         ':wheelchair'         => $record['wheelchair'],  // À traiter si besoin (vous pouvez appliquer parseBoolean si c'est attendu en booléen)
         ':cuisine'            => arrayToString($record['cuisine']),
-        ':vegetarian'         => parseBoolean($record['vegetarian']),
-        ':vegan'              => parseBoolean($record['vegan']),
-        ':delivery'           => parseBoolean($record['delivery']),
-        ':takeaway'           => parseBoolean($record['takeaway']),
+        ':vegetarian'         => parseBoolean($record['vegetarian'] ?? null),
+        ':vegan'              => parseBoolean($record['vegan'] ?? null),
+        ':delivery'           => parseBoolean($record['delivery'] ?? null),
+        ':takeaway'           => parseBoolean($record['takeaway'] ?? null),
         // Conversion pour internet_access
-        ':internet_access'    => parseBoolean($record['internet_access']),
+        ':internet_access'    => parseBoolean($record['internet_access'] ?? null),
         ':smoking'            => $record['smoking'],
         ':com_insee'          => $record['com_insee'],
         ':com_nom'            => $record['com_nom'],

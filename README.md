@@ -8,13 +8,24 @@
 ---
 
 ## Membres de l'équipe
-- **Développeur 1** :
-- **Développeur 2** : 
-- **Développeur 3** : 
-- **Développeur 4** :
+- **Matthias Caroux** :
+- **Raphaël Cochet** : 
+- **Arthur Jouan** : 
+- **Samuel Niveau** :
 
 
-## Installation et lancement
+## Lancement du site 
+
+
+### Si vous n'êtes à l'IUT
+
+- Lancer le serveur avec le fichier launch.sh
+- Vous pouvez créer un compte depuis le site ou utiliser un compte de test (username : mattcaroux@gmail.com, Mot de passe : matthias1)
+
+
+### Si vous êtes à l'IUT
+
+Si vous êtes à l'IUT vous ne pourrez pas vous connecter à la base de donnée supabase mais vous pouvez aller sur ce site : https://mediumvioletred-crocodile-491085.hostingersite.com/
 
 
 

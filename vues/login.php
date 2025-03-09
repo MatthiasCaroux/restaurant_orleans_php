@@ -7,7 +7,7 @@ session_start();
 
 // Si l'utilisateur est déjà connecté, le rediriger vers l'index
 if (isset($_SESSION['user_id'])) {
-    header('Location: index.php');
+    header('Location: ../index.php');
     exit();
 }
 
@@ -36,7 +36,7 @@ $imagesPath = "../_inc/static/images/";
             Email ou mot de passe incorrect.
         </div>
     <?php endif; ?>
-    <form action="/index.php?action=login" method="post">
+    <form action="../index.php?action=login" method="post">
       <label for="email">Adresse e-mail</label>
       <input type="email" name="email" id="email" required>
       <label for="password">Mot de passe</label>
@@ -46,7 +46,7 @@ $imagesPath = "../_inc/static/images/";
     <!-- Ligne horizontale personnalisée -->
     <hr class="separator">
     <h2>Pas encore de compte ?</h2>
-    <a href="/vues/register.php"><button>Inscrivez-vous</button></a>
+    <a href="register.php"><button>Inscrivez-vous</button></a>
   </main>
 </body>
 </html>
