@@ -1,0 +1,154 @@
+/* Style général pour la page profil */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f9ff;
+    color: #333;
+}
+
+/* Container principal */
+#main-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+/* Titre de la page */
+.page-title {
+    color: #031D44;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e3f2fd;
+    padding-bottom: 1rem;
+}
+
+/* Section des favoris */
+#cuisine {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    padding: 2rem;
+}
+
+#cuisine h2 {
+    margin: 0 0 1.5rem 0;
+    color: #031D44;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+/* Table des types de cuisine */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+}
+
+thead {
+    background-color: #f5f9ff;
+}
+
+th {
+    text-align: left;
+    padding: 1rem;
+    color: #031D44;
+    font-weight: 600;
+    border-bottom: 1px solid #e3f2fd;
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid #e3f2fd;
+}
+
+tbody tr:hover {
+    background-color: #f5f9ff;
+}
+
+/* Bouton de suppression */
+td button {
+    padding: 0.6rem 1rem;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+td button:hover {
+    background-color: #e60000;
+    transform: translateY(-2px);
+}
+
+/* Formulaire d'ajout */
+form {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+select {
+    padding: 0.8rem;
+    border: 1px solid #e3f2fd;
+    border-radius: 8px;
+    flex-grow: 1;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+
+button[type="submit"] {
+    padding: 0.8rem 1.5rem;
+    background-color: #031D44;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 500;
+}
+
+button[type="submit"]:hover {
+    background-color: #023169;
+    transform: translateY(-2px);
+}
+
+/* Section debug */
+.debug-info {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 2rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
+}
+
+.debug-info p {
+    margin: 0.5rem 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #main-container {
+        padding: 0 1rem;
+    }
+    
+    form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    select {
+        width: 100%;
+    }
+    
+    button[type="submit"] {
+        width: 100%;
+    }
+}
