@@ -11,7 +11,7 @@ class Restaurant {
     protected string $vegetarian;
     function __construct(int $id_restaurant, string $type_restaurant,
                     string $nom, string $telephone, string $site_restaurant,
-                    int $departement, int $code_departement, string $wheelchair, string $vegetarian) {
+                    string $departement, int $code_departement, string $wheelchair, string $vegetarian) {
 
                 $this->id_restaurant = $id_restaurant;
                 $this->type_restaurant = $type_restaurant;

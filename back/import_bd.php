@@ -1,5 +1,5 @@
 <?php
-require_once '../_inc/bd/db.php';
+    require_once '_inc\bd\db.php';
 
 /**
  * Convertit une valeur en booléen pour PostgreSQL.
@@ -42,7 +42,11 @@ function arrayToString($value) {
 }
 
 // Charger le fichier JSON des restaurants
-$json = file_get_contents('../_inc/data/restaurants_orleans.json');
+$filePath = __DIR__ . '/../_inc/data/restaurants_orleans.json';
+if (!file_exists($filePath)) {
+    die("Le fichier JSON n'existe pas à l'emplacement spécifié.");
+}
+$json = file_get_contents($filePath);
 $data = json_decode($json, true);
 
 // Connexion à la base de données Supabase
@@ -154,6 +158,4 @@ foreach ($data as $record) {
     }
 }
 
-
 echo "Insertion réussie pour tous les restaurants ! 🚀";
-?>

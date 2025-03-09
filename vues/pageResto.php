@@ -202,6 +202,15 @@ $image_url = file_exists($image_path) ? $image_path : $default_image;
                                 </a>
                             </div>
                         <?php endif; ?>
+
+                        <?php if (!empty($restaurant['facebook'])): ?>
+                            <div class="contact-item">
+                                <i class="fab fa-facebook"></i>
+                                <a href="<?php echo htmlspecialchars($restaurant['facebook_restaurant']); ?>" target="_blank" rel="noopener noreferrer">
+                                    Facebook
+                                </a>
+                            </div>
+    <?php endif; ?>
                     </div>
                     
                     <div class="contact-row">
