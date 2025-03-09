@@ -91,3 +91,14 @@ Allez sur le site officiel de Composer [getcomposer.org]( https://getcomposer.or
 
 Cela générera un rapport de couverture dans le répertoire coverage. Ouvrez le fichier **index.html** dans un navigateur pour voir le rapport.
 
+
+## Fonctionnalités
+
+- Conenxion / Inscription
+- Recherche de restaurants
+- Affichage des restaurants favoris selon l'utilisateur
+- Affichage des restaurant selon les types de cuisine favoris de l'utilisateur
+- Adapté selon les goûts de l'utilisateur
+- Filtre des restaurants selon vegan, vegetarien, ouvert
+- L'utilisateur peut mettre un avis avec une note et visualiser l'avis des autres utilisateur, moyenne des notes
+- L'utilisateur peut visualiser les caracteristiques d'un restaurant
