@@ -1,0 +1,7 @@
+/vendor
+*.cache
+.coverage
+.idea
+.vscode
+.DS_Store
+.env
