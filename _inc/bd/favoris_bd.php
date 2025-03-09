@@ -2,7 +2,6 @@
 require_once __DIR__ . '/db.php';
 global $db;
 
-
 /**
  * Ajoute un restaurant aux favoris d'un utilisateur
  * @param int $user_id ID de l'utilisateur
@@ -11,6 +10,10 @@ global $db;
  */
 function addRestaurantToFavorites($user_id, $restaurant_id) {
     try {
+        if (!is_numeric($user_id) || !is_numeric($restaurant_id)) {
+            return false;
+        }
+        
         $pdo = getPDO();
         
         // Vérifie d'abord si une appréciation existe déjà
@@ -19,6 +22,7 @@ function addRestaurantToFavorites($user_id, $restaurant_id) {
         $stmt_check = $pdo->prepare($sql_check);
         $stmt_check->execute(['user_id' => $user_id, 'restaurant_id' => $restaurant_id]);
         $appreciation = $stmt_check->fetch(PDO::FETCH_ASSOC);
+        $stmt_check = null; // Libère le statement
 
         if ($appreciation) {
             // Met à jour l'appréciation existante
@@ -32,7 +36,10 @@ function addRestaurantToFavorites($user_id, $restaurant_id) {
         }
 
         $stmt = $pdo->prepare($sql);
-        return $stmt->execute(['user_id' => $user_id, 'restaurant_id' => $restaurant_id]);
+        $result = $stmt->execute(['user_id' => $user_id, 'restaurant_id' => $restaurant_id]);
+        $stmt = null; // Libère le statement
+        
+        return $result;
     } catch (PDOException $e) {
         error_log("Erreur lors de l'ajout du restaurant aux favoris : " . $e->getMessage());
         return false;
@@ -97,13 +104,20 @@ function getFavorisCuisinesByUserId($userId) {
  */
 function removeRestaurantFromFavorites($user_id, $restaurant_id) {
     try {
+        if (!is_numeric($user_id) || !is_numeric($restaurant_id)) {
+            return false;
+        }
+        
         $pdo = getPDO();
         $sql = 'UPDATE "Appreciation" 
                 SET "Favoris" = false 
                 WHERE id_utilisateur = :user_id AND id_restaurant = :restaurant_id';
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['user_id' => $user_id, 'restaurant_id' => $restaurant_id]);
-        return $stmt->rowCount() > 0;
+        $rowCount = $stmt->rowCount();
+        $stmt = null; // Libère le statement
+        
+        return $rowCount > 0;
     } catch (PDOException $e) {
         error_log("Erreur lors de la suppression du restaurant des favoris : " . $e->getMessage());
         return false;
@@ -118,6 +132,10 @@ function removeRestaurantFromFavorites($user_id, $restaurant_id) {
  */
 function isRestaurantFavorite($user_id, $restaurant_id) {
     try {
+        if (!is_numeric($user_id) || !is_numeric($restaurant_id)) {
+            return false;
+        }
+        
         $pdo = getPDO();
         $sql = 'SELECT "Favoris" FROM "Appreciation" 
                 WHERE id_utilisateur = :user_id 
@@ -125,7 +143,10 @@ function isRestaurantFavorite($user_id, $restaurant_id) {
                 AND "Favoris" = true';
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['user_id' => $user_id, 'restaurant_id' => $restaurant_id]);
-        return (bool) $stmt->fetchColumn();
+        $result = (bool) $stmt->fetchColumn();
+        $stmt = null; // Libère le statement
+        
+        return $result;
     } catch (PDOException $e) {
         error_log("Erreur lors de la vérification des favoris : " . $e->getMessage());
         return false;
@@ -139,13 +160,20 @@ function isRestaurantFavorite($user_id, $restaurant_id) {
  */
 function getFavoritesForUser($user_id) {
     try {
+        if (!is_numeric($user_id)) {
+            return [];
+        }
+        
         $pdo = getPDO();
         $sql = 'SELECT r.* FROM "Restaurant" r
                 INNER JOIN "Appreciation" a ON r.id_restaurant = a.id_restaurant
                 WHERE a.id_utilisateur = :user_id AND a."Favoris" = true';
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['user_id' => $user_id]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = null; // Libère le statement
+        
+        return $results;
     } catch (PDOException $e) {
         error_log("Erreur lors de la récupération des favoris : " . $e->getMessage());
         return [];

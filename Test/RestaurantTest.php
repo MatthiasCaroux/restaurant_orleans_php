@@ -26,16 +26,13 @@ class RestaurantTest extends TestCase
 
     public function testRestaurantInitialization(): void
     {
-        // Assert: vérifier que l'objet a bien été créé
         $this->assertInstanceOf(Restaurant::class, $this->restaurant);
     }
 
     public function testRenderMethod(): void
     {
-        // Act: appeler la méthode render
         $result = $this->restaurant->render();
 
-        // Assert: vérifier que le résultat est correct
         $this->assertEquals('Restaurant : Pasta Bella', $result);
     }
 
