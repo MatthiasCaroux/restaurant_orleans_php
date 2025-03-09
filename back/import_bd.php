@@ -90,57 +90,72 @@ $sql = "INSERT INTO \"Restaurant\" (
     :operator, :brand, :website, :facebook
 )";
 $stmt = $pdo->prepare($sql);
-
+$listtype = [];
 // Boucle sur tous les restaurants du JSON
-try {
-    foreach ($data as $record) {
-        // Nettoyage de l'osm_id pour ne conserver que les chiffres
-        $osm_id = preg_replace('/[^0-9]/', '', $record['osm_id']);
+foreach ($data as $record) {
+    // Nettoyage de l'osm_id pour ne conserver que les chiffres
+    $osm_id = preg_replace('/[^0-9]/', '', $record['osm_id']);
+    
+    
+    $params = [
+        ':type_restaurant'    => $record['type'],
+        ':nom_restaurant'     => $record['name'],
+        ':telephone_restaurant' => isset($record['phone']) ? $record['phone'] : null,
+        ':site_restaurant'    => $record['website'],
+        ':departement'        => $record['departement'],
+        ':code_departement'   => $record['code_departement'],
+        ':commune'            => $record['commune'],
+        ':code_commune'       => $record['code_commune'],
+        ':latitude'           => isset($record['geo_point_2d']["lat"]) ? $record['geo_point_2d']["lat"] : null,
+        ':longitude'          => isset($record['geo_point_2d']["lon"]) ? $record['geo_point_2d']["lon"] : null,
+        ':stars'              => $record['stars'],
+        ':capacity'           => $record['capacity'],
+        ':drive_through'      => $record['drive_through'],
+        ':wikidata'           => $record['wikidata'],
+        ':brand_wikidata'     => $record['brand_wikidata'],
+        ':opening_hours'      => $record['opening_hours'],
+        ':wheelchair'         => $record['wheelchair'],  // À traiter si besoin (vous pouvez appliquer parseBoolean si c'est attendu en booléen)
+        ':cuisine'            => arrayToString($record['cuisine']),
+        ':vegetarian'         => parseBoolean($record['vegetarian']),
+        ':vegan'              => parseBoolean($record['vegan']),
+        ':delivery'           => parseBoolean($record['delivery']),
+        ':takeaway'           => parseBoolean($record['takeaway']),
+        // Conversion pour internet_access
+        ':internet_access'    => parseBoolean($record['internet_access']),
+        ':smoking'            => $record['smoking'],
+        ':com_insee'          => $record['com_insee'],
+        ':com_nom'            => $record['com_nom'],
+        ':region'             => $record['region'],
+        ':code_region'        => $record['code_region'],
+        ':osm_edit'           => $record['osm_edit'],
+        ':osm_id'             => $osm_id,
+        ':operator'           => $record['operator'],
+        ':brand'              => $record['brand'],
+        ':website'            => $record['website'],
+        ':facebook'           => $record['facebook']
+    ];
 
-        $params = [
-            ':type_restaurant'    => $record['type'],
-            ':nom_restaurant'     => $record['name'],
-            ':telephone_restaurant' => isset($record['phone']) ? $record['phone'] : null,
-            ':site_restaurant'    => $record['website'],
-            ':departement'        => $record['departement'],
-            ':code_departement'   => $record['code_departement'],
-            ':commune'            => $record['commune'],
-            ':code_commune'       => $record['code_commune'],
-            ':latitude'           => isset($record['geo_point_2d']["lat"]) ? $record['geo_point_2d']["lat"] : null,
-            ':longitude'          => isset($record['geo_point_2d']["lon"]) ? $record['geo_point_2d']["lon"] : null,
-            ':stars'              => $record['stars'],
-            ':capacity'           => $record['capacity'],
-            ':drive_through'      => $record['drive_through'],
-            ':wikidata'           => $record['wikidata'],
-            ':brand_wikidata'     => $record['brand_wikidata'],
-            ':opening_hours'      => $record['opening_hours'],
-            ':wheelchair'         => $record['wheelchair'],  // À traiter si besoin (vous pouvez appliquer parseBoolean si c'est attendu en booléen)
-            ':cuisine'            => arrayToString($record['cuisine']),
-            ':vegetarian'         => parseBoolean($record['vegetarian']),
-            ':vegan'              => parseBoolean($record['vegan']),
-            ':delivery'           => parseBoolean($record['delivery']),
-            ':takeaway'           => parseBoolean($record['takeaway']),
-            // Conversion pour internet_access
-            ':internet_access'    => parseBoolean($record['internet_access']),
-            ':smoking'            => $record['smoking'],
-            ':com_insee'          => $record['com_insee'],
-            ':com_nom'            => $record['com_nom'],
-            ':region'             => $record['region'],
-            ':code_region'        => $record['code_region'],
-            ':osm_edit'           => $record['osm_edit'],
-            ':osm_id'             => $osm_id,
-            ':operator'           => $record['operator'],
-            ':brand'              => $record['brand'],
-            ':website'            => $record['website'],
-            ':facebook'           => $record['facebook']
-        ];
+    $stmt->execute($params);
+    $id_restaurant = $pdo->lastInsertId(); // Ensure this is set after inserting the restaurant
 
-        $stmt->execute($params);
+    if ($record['cuisine'] != null) {
+        foreach ($record['cuisine'] as $typecuisine) {
+            if (!in_array($typecuisine, $listtype)) {
+                array_push($listtype, $typecuisine);
+                $querycuisine = "INSERT INTO \"Type_cuisine\" (nom_type_cuisine) VALUES (:nom_type_cuisine)";
+                $stmtcuisine = $pdo->prepare($querycuisine);
+                $stmtcuisine->execute([':nom_type_cuisine' => $typecuisine]);
+            }
+            $queryTypeCuisine = "SELECT id_type_cuisine FROM \"Type_cuisine\" WHERE nom_type_cuisine = :nom_type_cuisine";
+            $stmtTypeCuisine = $pdo->prepare($queryTypeCuisine);
+            $stmtTypeCuisine->execute([':nom_type_cuisine' => $typecuisine]);
+            $id_type_cuisine = $stmtTypeCuisine->fetchColumn();
 
-        echo "Insertion réussie ! 🚀<br>";
+            $queryAppartenir = "INSERT INTO \"appartenir_cuisine\" (id_restaurant, id_type_cuisine) VALUES (:id_restaurant, :id_type_cuisine)";
+            $stmtAppartenir = $pdo->prepare($queryAppartenir);
+            $stmtAppartenir->execute([':id_restaurant' => $id_restaurant, ':id_type_cuisine' => $id_type_cuisine]);
+        }
     }
-} catch (PDOException $e) {
-    echo "Erreur lors de l'insertion : " . $e->getMessage() . "<br>";
 }
 
 echo "Insertion réussie pour tous les restaurants ! 🚀";

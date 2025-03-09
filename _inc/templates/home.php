@@ -14,7 +14,7 @@ $open_now_filter = isset($_GET['open_now']) ? filter_var($_GET['open_now'], FILT
 $search_text = isset($_GET['search']) ? $_GET['search'] : '';
 
 // Fonction pour récupérer les restaurants filtrés
-function getFilteredRestaurants($type = 'tout', $vegetarian = false, $wheelchair = false, $open_now = false, $search = '') {
+function getFilteredRestaurants($type = 'tout', $vegetarian = false, $wheelchair = false, $open_now = false, $search = '',$cuisine_favoris = false) {
     try {
         $pdo = getPDO();
         
@@ -45,6 +45,15 @@ function getFilteredRestaurants($type = 'tout', $vegetarian = false, $wheelchair
             $sql .= ' AND (LOWER(nom_restaurant) LIKE :search OR LOWER(commune) LIKE :search OR LOWER(cuisine) LIKE :search)';
             $params['search'] = '%' . strtolower($search) . '%';
         }
+        if ($cuisine_favoris && isset($_SESSION['user_id'])) {
+            $favoris_cuisines = get_favoris_cuisine_by_user_id($_SESSION['user_id']);
+            if (!empty($favoris_cuisines)) {
+                $types_favoris = array_column($favoris_cuisines, 'nom_type_cuisine'); // Nom de la colonne correspondant au type
+                $placeholders = implode(',', array_fill(0, count($types_favoris), '?'));
+                $sql .= " AND cuisine IN ($placeholders)";
+                $params = array_merge($params, $types_favoris);
+            }
+        }
         
         // Préparer et exécuter la requête
         $stmt = $pdo->prepare($sql);
@@ -68,7 +77,8 @@ function getFilteredRestaurants($type = 'tout', $vegetarian = false, $wheelchair
 
 // Récupérer les restaurants avec les filtres appliqués
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && (isset($_GET['filter']) || isset($_GET['search']))) {
-    $restaurants = getFilteredRestaurants($type_filter, $vegetarian_filter, $wheelchair_filter, $open_now_filter, $search_text);
+    $cuisine_favoris = isset($_GET['favoris']) ? filter_var($_GET['favoris'], FILTER_VALIDATE_BOOLEAN) : false;
+    $restaurants = getFilteredRestaurants($type_filter, $vegetarian_filter, $wheelchair_filter, $open_now_filter, $search_text, $cuisine_favoris);
 } else {
     // Récupération de tous les restaurants par défaut
     $restaurants = getAllRestaurants();
@@ -415,8 +425,24 @@ function formatCuisine($cuisine) {
                         </span>
                     </div>
                 </div>
+
+                <?php if ($isLoggedIn): ?>
+                <?php
+                require_once __DIR__ . "/../bd/favoris_bd.php";
+                $favoris_cuisines = get_favoris_cuisine_by_user_id($_SESSION['user_id']);
+                ?>
+                <?php if (!empty($favoris_cuisines)): ?>
+                    <div class="favoris-container">
+                        <input type="checkbox" id="filter-favoris" name="favoris" value="1" <?php if ($cuisine_favoris) echo 'checked'; ?>>
+                        <label for="filter-favoris">N'afficher que mes types de cuisine favoris</label>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+
+
             </div>
         </form>
+        
         
         <section>
             <div class="restaurant-container">
@@ -500,6 +526,93 @@ function formatCuisine($cuisine) {
         </section>
     </main>
     
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Éléments de filtre
+        const searchInput = document.getElementById('recherche_texte');
+        const typeSelect = document.getElementById('recherche_by_type');
+        const vegetarianFilter = document.getElementById('filter-vegetarian');
+        const wheelchairFilter = document.getElementById('filter-wheelchair');
+        const openNowFilter = document.getElementById('filter-open-now');
+        const filterForm = document.getElementById('filter-form');
+        
+        // Options pour les filtres en temps réel (si souhaité)
+        const enableRealTimeFiltering = false;
+        
+        if (enableRealTimeFiltering) {
+            // Fonction pour appliquer les filtres en temps réel (JavaScript côté client)
+            function applyFiltersRealTime() {
+                const searchText = searchInput.value.toLowerCase();
+                const selectedType = typeSelect.value;
+                const showVegetarian = vegetarianFilter.checked;
+                const showWheelchair = wheelchairFilter.checked;
+                const showOpenNow = openNowFilter.checked;
+                
+                const restaurants = document.querySelectorAll('.restaurant');
+                
+                restaurants.forEach(function(restaurant) {
+                    const restaurantName = restaurant.querySelector('h2').textContent.toLowerCase();
+                    const restaurantType = restaurant.getAttribute('data-type');
+                    const isVegetarian = restaurant.getAttribute('data-vegetarian') === 'true';
+                    const hasWheelchair = restaurant.getAttribute('data-wheelchair') === 'true';
+                    const isOpen = restaurant.getAttribute('data-open') === 'true';
+                    
+                    // Vérifier tous les critères de filtre
+                    const matchesSearch = restaurantName.includes(searchText);
+                    const matchesType = selectedType === 'tout' || restaurantType === selectedType;
+                    const matchesVegetarian = !showVegetarian || isVegetarian;
+                    const matchesWheelchair = !showWheelchair || hasWheelchair;
+                    const matchesOpenNow = !showOpenNow || isOpen;
+                    
+                    // Afficher ou masquer le restaurant en fonction des filtres
+                    if (matchesSearch && matchesType && matchesVegetarian && matchesWheelchair && matchesOpenNow) {
+                        restaurant.parentNode.style.display = '';
+                    } else {
+                        restaurant.parentNode.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Ajouter des écouteurs d'événements pour tous les filtres
+            searchInput.addEventListener('input', applyFiltersRealTime);
+            typeSelect.addEventListener('change', applyFiltersRealTime);
+            vegetarianFilter.addEventListener('change', applyFiltersRealTime);
+            wheelchairFilter.addEventListener('change', applyFiltersRealTime);
+            openNowFilter.addEventListener('change', applyFiltersRealTime);
+        } else {
+            // Approche de soumission de formulaire pour le filtrage côté serveur
+            // Activer l'autosubmit si désiré
+            const autoSubmitOnChange = true;
+            
+            if (autoSubmitOnChange) {
+                // Soumettre automatiquement le formulaire lors de changements
+                typeSelect.addEventListener('change', function() {
+                    filterForm.submit();
+                });
+                
+                vegetarianFilter.addEventListener('change', function() {
+                    filterForm.submit();
+                });
+                
+                wheelchairFilter.addEventListener('change', function() {
+                    filterForm.submit();
+                });
+                
+                openNowFilter.addEventListener('change', function() {
+                    filterForm.submit();
+                });
+                const favorisFilter = document.getElementById('filter-favoris');
+                    if (favorisFilter) {
+                        favorisFilter.addEventListener('change', function() {
+                            filterForm.submit();
+                        });
+                    }
+
+            }
+        }
+    });
+    </script>
     <script src="/_inc/static/js/filtre.js"></script> 
 
 </body>
