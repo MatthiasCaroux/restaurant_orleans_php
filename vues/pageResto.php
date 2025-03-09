@@ -56,6 +56,20 @@ if ($isLoggedIn && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['like_a
 }
 
 
+// Traitement du formulaire d'avis
+if ($isLoggedIn && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_avis'], $_POST['id_restaurant'])) {
+    $restaurant_id = intval($_POST['id_restaurant']);
+    $titre = $_POST['titre'];
+    $texte = $_POST['texte'];
+    $note = $_POST['note'];
+    $success = addAvis($titre, $texte, $note, $restaurant_id, $user_id);
+    if (!$success) {
+        error_log("Erreur lors de l'ajout de l'avis pour user_id={$user_id}, restaurant_id={$restaurant_id}");
+    }
+    header("Location: pageResto.php?id=" . $restaurant_id);
+    exit;
+}
+
 
 // Récupération des détails du restaurant
 $restaurant = getRestaurantById($id_restaurant);
@@ -341,7 +355,14 @@ $image_url = file_exists($image_path) ? $image_path : $default_image;
                                 </div>
                                 
                                 <input type="hidden" name="id_restaurant" value="<?php echo $id_restaurant; ?>">
-                                <button type="submit" class="btn-submit-avis">Publier votre avis</button>
+                                <form action="POST">
+                                    <input type="hidden" name="id_restaurant" value="<?php echo $id_restaurant; ?>">
+                                    <input type="hidden" name="id_utilisateur" value="<?php echo $user_id; ?>">
+                                    <input type="hidden" name="titre" value="<?php echo $titre; ?>">
+                                    <input type="hidden" name="texte" value="<?php echo $texte; ?>">
+                                    <input type="hidden" name="note" value="<?php echo $note; ?>">
+                                    <button type="submit" class="btn-submit-avis" name="submit_avis">Publier votre avis</button>
+                                </form>
                             </form>
                         </div>
                     </div>
