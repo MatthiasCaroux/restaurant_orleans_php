@@ -1,0 +1,23 @@
+/* Styles de base */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+main {
+    min-height: calc(100vh - 60px - 80px);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Utilitaires */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+} 

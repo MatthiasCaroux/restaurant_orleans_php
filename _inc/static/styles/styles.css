@@ -1,0 +1,492 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+  background-color: #f9f9f9;
+  font-family: 'Sarabun', sans-serif;
+  line-height: 1.4;
+}
+
+
+main form button:hover, 
+main a button:hover {
+    background-color: #023169;
+}
+
+/* Style pour les messages d'erreur */
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+
+
+
+
+
+/* Section principale (Search bar) */
+main.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, #fff 0%, #f9f9f9 100%);
+    padding: 2rem;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    border-radius: 2rem;
+    background-color: #fff;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.search-container:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.search-container input {
+    border: none;
+    outline: none;
+    padding: 0.8rem;
+    font-size: 1rem;
+    width: 300px;
+    border-radius: 2rem;
+}
+
+.search-container button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.search-container img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.search-container input::placeholder {
+    color: #999;
+}
+
+.search-info {
+    margin-top: 1.5rem;
+    color: #555;
+    text-align: center;
+    max-width: 600px;
+}
+
+footer {
+    background-color: #fff;
+    padding: 2rem 10rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+    border-top: 1px solid #e2e2e2;
+}
+
+/* Affichage des restaurants */
+div.restaurant-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(1000px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+}
+
+div.restaurant {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+div.restaurant-info {
+  display: flex;
+  align-items: stretch; /* Assure que les éléments enfants s'étendent sur toute la hauteur du conteneur */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; 
+}
+
+div.restaurant-info > h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+div.restaurant-info > div > p {
+  color: #666;
+  font-size: 1.5rem;
+}
+
+div.restaurant-info > div > p > a {
+  color: #031D44;
+  text-decoration: none;
+}
+
+div.restaurant-info img {
+  object-fit: cover;
+  margin-right: 1rem;
+  height: 100%; /* Hauteur égale à celle du conteneur */
+  width: 300px; /* Largeur fixe */
+  flex-shrink: 0; /* Empêche l'image de rétrécir */
+}
+
+.restaurant-info:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.restaurant-link {
+    text-decoration: none;
+    display: block;
+    color: inherit;
+}
+/* ... Votre CSS global reste inchangé ... */
+
+/* =================== */
+/* Styles Responsive   */
+/* =================== */
+
+/* Pour les écrans petits (mobiles, max-width: 768px) */
+@media (max-width: 1200px) {
+  /* Affichage d'une seule colonne pour la grille des restaurants */
+  div.restaurant-container {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+  }
+  
+  /* Passage de la disposition en ligne à la disposition en colonne */
+  div.restaurant-info {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+  
+  /* Adaptation de la taille de l'image */
+  div.restaurant-info img {
+      width: 100%;       /* L'image prend la largeur du conteneur */
+      max-width: 250px;  /* Largeur maximale pour éviter qu'elle ne soit trop grande */
+      height: auto;      /* Maintien des proportions */
+      margin-bottom: 1rem;
+  }
+  
+  /* Ajustement des titres et paragraphes pour une meilleure lisibilité sur mobile */
+  div.restaurant-info > h2 {
+      font-size: 1.5rem;
+  }
+  
+  div.restaurant-info > div > p {
+      font-size: 1rem;
+  }
+}
+
+
+
+/* Pour que le bouton coeur soit positionné par rapport à la div restaurant */
+div.restaurant {
+    position: relative;
+  }
+  
+  /* Style du bouton coeur */
+  .heart-btn {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    transition: transform 0.2s;
+  }
+  
+  /* Optionnel : ajuster la taille de l'icône */
+  .heart-btn img {
+    width: 24px; /* Ajustez la taille selon vos préférences */
+    height: auto;
+  }
+  
+
+
+/* Style pour la page resto */
+.restaurant-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.restaurant {
+    position: relative;
+}
+
+.heart-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 2;
+}
+
+.restaurant-link:hover .restaurant {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Style pour la page de détail du restaurant */
+.restaurant-details {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.retour-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: #031D44;
+    margin-bottom: 2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 40rem;
+    transition: background-color 0.3s ease;
+}
+
+.retour-btn:hover {
+    background-color: #f2f2f2;
+}
+
+.restaurant-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.restaurant-header img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+.restaurant-header h1 {
+    font-size: 2.2rem;
+    color: #031D44;
+}
+
+.restaurant-info-details {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.info-section, .description-section {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-section h2, .description-section h2 {
+    color: #031D44;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.info-section p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.info-section strong {
+    color: #031D44;
+}
+
+.info-section a {
+    color: #031D44;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.info-section a:hover {
+    color: #023169;
+    text-decoration: underline;
+}
+
+.description-section p {
+    line-height: 1.6;
+    color: #555;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .restaurant-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .restaurant-header img {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .restaurant-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .info-section, .description-section {
+        padding: 1.5rem;
+    }
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.favorite-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 40rem;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-btn:hover {
+    background-color: #f2f2f2;
+}
+
+.favorite-btn.is-favorite {
+    background-color: #ffebee;
+}
+
+.favorite-btn.is-favorite i {
+    color: #e91e63;
+}
+
+.favorite-btn i {
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.favorite-btn:hover i {
+    transform: scale(1.1);
+}
+
+.favorite-form {
+    margin: 0;
+    padding: 0;
+}
+
+.favorite-form button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 40rem;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-form button:hover {
+    background-color: #f2f2f2;
+}
+
+.favorite-form button.is-favorite {
+    background-color: #ffebee;
+}
+
+.favorite-form button.is-favorite i {
+    color: #e91e63;
+}
+
+.favorite-form button i {
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.favorite-form button:hover i {
+    transform: scale(1.1);
+}
+
+.no-favorites {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+main h1 {
+    text-align: center;
+    color: #031D44;
+    margin: 2rem 0;
+    font-size: 2rem;
+}
+
+.restaurant-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.favorite-form {
+    margin: 0;
+}
+
+.btn-favorite {
+    background-color: #031D44;
+    color: white;
+    padding: 0.5rem 1.3rem;
+    border: none;
+    border-radius: 40rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.btn-favorite:hover {
+    background-color: #023169;
+}
+
+.btn-favorite.is-favorite {
+    background-color: #d9534f;
+}
+
+.btn-favorite.is-favorite:hover {
+    background-color: #c9302c;
+} 
+
+.cacher{
+    display: none;
+}
+
